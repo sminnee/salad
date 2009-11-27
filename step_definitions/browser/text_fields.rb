@@ -63,4 +63,5 @@ def getTextField(browser, type)
   fields.each { | field |
     if field.visible? then return field end
   }
+  return nil
 end
