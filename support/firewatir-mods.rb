@@ -7,9 +7,7 @@ class Element
     js = "(function(el) {
       var w = getWindows()[0].content;
       while(el && el != w.document) {
-        w.console.log(el);
         var s = w.getComputedStyle(el, null);
-        w.console.log(s);
         if(s.getPropertyValue('display') == 'none' || s.getPropertyValue('visibility') == 'hidden') return false;
         el = el.parentNode;
       }; 
@@ -25,10 +23,11 @@ class FireWatir::Firefox
   
     outerScript = <<-eos
     (function(window) {
-      return #{script}
+      var _evaluate_script_value = #{script};
+      return _evaluate_script_value;
     })(getWindows()[0].content);
     eos
   
-    self.js_eval(outerScript)
+    return self.js_eval(outerScript)
   end
 end

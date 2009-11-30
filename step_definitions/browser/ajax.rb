@@ -20,7 +20,8 @@ def ajax_before_action(browser)
   # Warning: don't use // comments in the JS, only /* */, because newlines are removed
   
   js = <<-eos
-    (function() {
+      "already patched: " + window.__ajaxPatch;
+      
       window.__ajaxStatus = function() { return 'no ajax'; };
 
       if(typeof window.__ajaxPatch == 'undefined') {
@@ -60,8 +61,6 @@ def ajax_before_action(browser)
         }
         return "patched" + patchedList
       }
-      return "already patched: " + window.__ajaxPatch;
-    })()
   eos
   
   browser.evaluate_script(js)
@@ -76,7 +75,7 @@ end
 
 def ajax_after_action(browser)
   Watir::Waiter::wait_until {
-    status = browser.evaluate_script("window.__ajaxStatus()")
+    status = browser.evaluate_script("window.__ajaxStatus ? window.__ajaxStatus() : 'no ajax'")
     # For debugging
     #puts "Waiting for ajax: #{status}"
     status != "waiting"
