@@ -29,6 +29,6 @@ class FireWatir::Firefox
     })(getWindows()[0].content);
     eos
   
-    browser.js_eval(outerScript)
+    self.js_eval(outerScript)
   end
 end
