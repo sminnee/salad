@@ -15,25 +15,19 @@ Given /click the "(.*)" button/i do |type|
 end
 
 def getButton(browser, type)
-  if browser.button(:id, type).exists? then
-    return browser.button(:id, type)
-  elsif
-    browser.button(:name, type).exists? then
-    return button(:name, type)
-  elsif
-    browser.button(:value, type).exists? then
-    return browser.button(:value, type)
-  elsif
-    # XPath used for Safari *and* FireWatir support
-    browser.button(:xpath, "//button[.='#{type}']").exists? then
-    return browser.button(:xpath, "//button[.='#{type}']")
-  elsif
-    browser.button(:index, type).exists? then
-    return browser.button(:index, type)
-  elsif
-    browser.button(:class, type).exists? then
-    return browser.button(:class, type)
-  else
-    return nil
+  button = browser.button(:id, type)
+  button = browser.button(:value, type) unless button.exists?
+
+  # :text used for Firefox suport
+  if browser.instance_of?(FireWatir::Firefox)
+    button = browser.button(:text, type) unless button.exists?
   end
+  # :xpath used for Safari suport
+  button = browser.button(:xpath, "//button[.='#{type}']") unless button.exists?
+
+  button = browser.button(:index, type) unless button.exists?
+  button = browser.button(:class, type) unless button.exists?
+  
+  button = nil unless button.exists?
+  return button
 end
