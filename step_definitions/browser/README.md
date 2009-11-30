@@ -15,6 +15,11 @@ To do
  * [x] Use <label for="X"> tags to find fields by label
  * [x] Exclude hidden fields from the search; find the first visible tab
  * [ ] Make label matchers case-insensitive
+ * [ ] Drag & drop testing (incl. SiteTree)
+ * [ ] ComplexTableField, pop-up, iframe testing
+ * [ ] Content-identification testing
+ * [ ] Multi-window testing (incl. checking the front-end site)
+ * [ ] TinyMCE testing
 
 ### Later
 
