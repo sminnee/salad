@@ -24,15 +24,15 @@ def getButton(browser, type)
     browser.button(:value, type).exists? then
     return browser.button(:value, type)
   elsif
-    # Safari doesn't support this
-    browser.button(:text, type).exists? then
-    return button(:text, type)
+    # XPath used for Safari *and* FireWatir support
+    browser.button(:xpath, "//button[.='#{type}']").exists? then
+    return browser.button(:xpath, "//button[.='#{type}']")
   elsif
     browser.button(:index, type).exists? then
-    return button(:index, type)
+    return browser.button(:index, type)
   elsif
     browser.button(:class, type).exists? then
-    return button(:class, type)
+    return browser.button(:class, type)
   else
     return nil
   end
