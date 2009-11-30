@@ -1,11 +1,11 @@
 Given /cancel pop-ups/i do
-  @browser.js_eval("var w=getWindows()[0].content; w.confirm=w.alert=w.prompt=function(){ return false; };")
+  @browser.evaluate_script("window.confirm=window.alert=window.prompt=function(){ return false; };")
 end
 
 Given /confirm pop-ups/i do
-  @browser.js_eval("var w=getWindows()[0].content; w.confirm=w.alert=function(){ return true; }; w.prompt=function(){ return false; }")
+  @browser.evaluate_script("window.confirm=window.alert=function(){ return true; }; window.prompt=function(){ return false; }")
 end
 
-Given /put "(.*)" in the pop-up/i do
-  @browser.js_eval("var w=getWindows()[0].content; w.confirm=w.alert=function(){ return true; }; w.prompt=function(){ return false; }")
+Given /put "(.*)" in the pop-up/i do | value |
+  @browser.evaluate_script("window.confirm=window.alert=function(){ return true; }; window.prompt=function(){ return \"#{value}\"; }")
 end

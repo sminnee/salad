@@ -20,52 +20,54 @@ def ajax_before_action(browser)
   # Warning: don't use // comments in the JS, only /* */, because newlines are removed
   
   js = <<-eos
-  (function(window) {
-    window.__ajaxStatus = function() { return 'no ajax'; };
+    (function() {
+      window.__ajaxStatus = function() { return 'no ajax'; };
 
-    if(typeof window.__ajaxPatch == 'undefined') {
-      window.__ajaxPatch = 1;
+      if(typeof window.__ajaxPatch == 'undefined') {
+        window.__ajaxPatch = 1;
       
-      var patchedList = "";
+        var patchedList = "";
 
-      /* Monkey-patch Prototype */
-      if(typeof window.Ajax!='undefined' && typeof window.Ajax.Request!='undefined') {
-        window.Ajax.Request.prototype.initialize = function(url, options) {
-          this.transport = window.Ajax.getTransport();
+        /* Monkey-patch Prototype */
+        if(typeof window.Ajax!='undefined' && typeof window.Ajax.Request!='undefined') {
+          window.Ajax.Request.prototype.initialize = function(url, options) {
+            this.transport = window.Ajax.getTransport();
 
-          var __activeTransport = this.transport
-          window.__ajaxStatus = function() {
-            return (__activeTransport.readyState == 4) ? 'success' : 'waiting';
-          }
+            var __activeTransport = this.transport
+            window.__ajaxStatus = function() {
+              return (__activeTransport.readyState == 4) ? 'success' : 'waiting';
+            }
 
-          this.setOptions(options);
-          this.request(url);
-        };
-        patchedList += " prototype";
-      }
-
-      /* Monkey-patch jQuery */
-      if(typeof window.jQuery!='undefined') {
-        var _orig_ajax = window.jQuery.ajax;
-
-        window.jQuery(window).ajaxStop(function() {
-          window.__ajaxStatus = function() { return 'success'; }
-        });
-        
-        window.jQuery.ajax = function(s) {
-          window.__ajaxStatus = function() { return 'waiting'; }
-          _orig_ajax(s);
+            this.setOptions(options);
+            this.request(url);
+          };
+          patchedList += " prototype";
         }
-        patchedList += " jquery";
+
+        /* Monkey-patch jQuery */
+        if(typeof window.jQuery!='undefined') {
+          var _orig_ajax = window.jQuery.ajax;
+
+          window.jQuery(window).ajaxStop(function() {
+            window.__ajaxStatus = function() { return 'success'; }
+          });
+        
+          window.jQuery.ajax = function(s) {
+            window.__ajaxStatus = function() { return 'waiting'; }
+            _orig_ajax(s);
+          }
+          patchedList += " jquery";
+        }
+        return "patched" + patchedList
       }
-      return "patched" + patchedList
-    }
-    return "already patched: " + window.__ajaxPatch;
-  })(getWindows()[0].content);
+      return "already patched: " + window.__ajaxPatch;
+    })()
   eos
   
-  js = js.gsub(/[\n\r]/, "; ")
-  browser.js_eval(js)
+  browser.evaluate_script(js)
+  
+  #js = js.gsub(/[\n\r]/, "; ")
+  #browser.js_eval(js)
   
   # For debugging
   #puts "Patching:"
@@ -74,7 +76,7 @@ end
 
 def ajax_after_action(browser)
   Watir::Waiter::wait_until {
-    status = browser.js_eval("getWindows()[0].content.__ajaxStatus()")
+    status = browser.evaluate_script("window.__ajaxStatus()")
     # For debugging
     #puts "Waiting for ajax: #{status}"
     status != "waiting"

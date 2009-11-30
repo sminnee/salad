@@ -18,3 +18,17 @@ class Element
     return js_eval(js) == 'true'
   end
 end
+
+class FireWatir::Firefox
+  def evaluate_script(script)
+    # Warning: don't use // comments in the JS, only /* */, because newlines are removed
+  
+    outerScript = <<-eos
+    (function(window) {
+      return #{script}
+    })(getWindows()[0].content);
+    eos
+  
+    browser.js_eval(outerScript)
+  end
+end
