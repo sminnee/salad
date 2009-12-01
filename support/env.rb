@@ -2,7 +2,7 @@ require 'spec'
 
 $killFF = false
  
-if ENV['SAFARIWATIR']
+if ENV['BROWSERSALAD_BROWSER'] and ENV['BROWSERSALAD_BROWSER'].downcase == 'safari'
   require 'safariwatir'
   Browser = Watir::Safari
 else
@@ -45,7 +45,15 @@ end
 
 # Set up 
 $browser = Browser.new
-$baseURL = 'http://localhost/airnz1/'
+
+if ENV['BROWSERSALAD_URL'] then
+  $baseURL = ENV['BROWSERSALAD_URL']
+  if not $baseURL.match(/\/$/) then
+      $baseURL += '/'
+  end
+else
+  $baseURL = "http://demo.silverstripe.com/"
+end
 
 # Make it go fast - IE only
 # $browser.speed = :zippy
