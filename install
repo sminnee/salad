@@ -1,0 +1,49 @@
+echo "Browser Salad OS X installer
+===========================
+"
+
+ffbin=/Applications/Firefox.app/Contents/MacOS/firefox-bin
+
+echo "> Installing necessary Gems"
+sudo gem update cucumber firewatir safariwatir
+
+if [ "`$ffbin --version | grep 3.5.2`" = "" ]; then
+	echo "> Downloading Firefox 3.5.2 - you must use this version at the moment."
+	wget http://hyperion.zih.tu-dresden.de/moz/firefox/releases/3.5.2/mac/en-GB/Firefox%203.5.2.dmg
+	open "Firefox 3.5.2.dmg"
+
+	echo "> Please install this version of Firefox into your /Applications directory.   When you're done, press enter to continue."
+	
+	while [ "`$ffbin --version | grep 3.5.2`" = "" ]; do
+		echo "That doesn't seem to be the right version.  Try again, and when you're done, press enter to continue."
+	done
+fi	
+
+if [ -f /Applications/Firefox.app/Contents/MacOS/libsqlite3.dylib ]; then
+	echo "> Renaming libsqlite3.dylib inside Firefox.app (a necessary tweak)"
+	mv /Applications/Firefox.app/Contents/MacOS/libsqlite3.dylib /Applications/Firefox.app/Contents/MacOS/_libsqlite3.dylib
+fi
+
+if [ ! -f jssh-3.5.x-Darwin-param.xpi ]; then
+	echo "> Downloading Firefox 3.5 JSSH plugin"
+	wget http://wiki.openqa.org/download/attachments/13893658/jssh-3.5.x-Darwin-param.xpi
+fi
+
+echo "> Installing Firefox 3.5 JSSH plugin"
+open ./jssh-3.5.x-Darwin-param.xpi
+
+echo "> Please go to System Prefences -> Universal Access and check the box labelled 'Enable access for assistive devices'
+
+When you're done, press enter to continue."
+
+read -s -n1
+
+echo "
+Done!
+
+You should be able to run one of these commands now:
+
+./toss firefox http://localhost/yourtestsite create-page.feature
+./toss safari http://localhost/yourtestsite create-page.feature
+
+"
