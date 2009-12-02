@@ -142,26 +142,25 @@ module Watir
           raise RuntimeError, "Unable to locate #{element.element_name} with #{element.how}"
       end
     end    
-
-    # Altered internal handler to have 30 second timeout instead of 10
-    def page_load(extra_action = nil)      
-      yield
-      sleep 1
-
-      tries = 0
-      30.times do |tries|        
-        if "complete" == eval_js("return DOCUMENT.readyState") && !@document.URL.get.blank?
-          sleep 0.4          
-          handle_client_redirect
-          break
-        elsif extra_action
-          result = extra_action.call
-          break if result == EXTRA_ACTION_SUCCESS
-        else
-          sleep 1
+  
+    # Altered internal API method - need to wait for the URL displayed to actually change, so that
+    # we can handle slow-loading pages better
+    def navigate_to(url, &extra_action)
+      page_load(extra_action) do
+        currentURL = @document.URL.get
+        @document.URL.set(url)
+        
+        if currentURL != url
+          60.times do |tries|
+            if @document.URL.get != currentURL
+              break
+            else
+              sleep 0.5
+            end
+          end
         end
       end
-      raise "Unable to load page within #{TIMEOUT} seconds" if tries == TIMEOUT-1
     end
+
   end
 end
