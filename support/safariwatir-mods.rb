@@ -76,7 +76,7 @@ module Watir
 
     # Internal handler for Safari class to access
     def get_all_text_fields()
-      ids = get_ids_from_js("document.getElementsByTagName('input')", "item.type == 'text' || item.type == 'password'")
+      ids = get_ids_from_js("document.getElementsByTagName('input')", "item.type == 'text' || item.type == 'password'") + get_ids_from_js("document.getElementsByTagName('textarea')")
       return ids.map { |id|
         Container::TextField.new(self, :id, id)
       }
