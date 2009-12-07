@@ -15,3 +15,16 @@ Usage
 Run something like this to execute the tests.
 
    ./toss http://localhost/yoursite create-page.feature
+
+Using Browser Salad to run tests from another project
+-----------------------------------------------------
+
+Browser Salad doesn't come bundled with any actual tests, so usually you have to write tests as part
+of your project.
+
+
+This example runs a copy of browsersalad installed in ~/browsersalad to execute the features 
+contained in a Sapphire project.  `sake SapphireURL/baseurl` return the URL of the current Sapphire
+project.
+
+    ~/browsersalad/toss firefox `sake SapphireInfo/baseurl` */tests/cuke/*.feature
