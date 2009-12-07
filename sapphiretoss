@@ -1,0 +1,15 @@
+if [ "$1" = "" ]; then
+	echo "Usage: $0 (browser)
+"
+	exit 1
+fi
+
+if [ ! -f sapphire/main.php ]; then
+	echo "Please run $0 from within your sapphire project root.
+I couldn't find ./sapphire/main.php.
+"
+	exit 2
+fi
+
+dirname=`dirname $0`
+$dirname/toss $1 `./sapphire/sake SapphireInfo/baseurl` */tests/cuke/*.feature

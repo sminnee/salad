@@ -16,6 +16,9 @@ Run something like this to execute the tests.
 
    ./toss http://localhost/yoursite create-page.feature
 
+**Note:** The command is `toss` because that's what you do to a salad.  It's a lame joke, but so is
+the name Browser Salad.
+
 Using Browser Salad to run tests from another project
 -----------------------------------------------------
 
@@ -28,3 +31,8 @@ contained in a Sapphire project.  `sake SapphireURL/baseurl` return the URL of t
 project.
 
     ~/browsersalad/toss firefox `sake SapphireInfo/baseurl` */tests/cuke/*.feature
+
+Because browsersalad was written in order to support testing of Sapphire projects, we have a special
+script for this particular example.  This will probably go away as browsersalad matures
+
+    ~/browsersalad/sapphiretoss firefox
