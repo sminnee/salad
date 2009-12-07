@@ -5,7 +5,16 @@ echo "Browser Salad OS X installer
 ffbin=/Applications/Firefox.app/Contents/MacOS/firefox-bin
 
 echo "> Installing necessary Gems"
-sudo gem update cucumber firewatir safariwatir
+
+for gem in cucumber firewatir safariwatir rb-appscript; do
+	if [ "`gem list --local | grep $gem`" = "" ]; then
+		echo "Installing $gem"
+		sudo gem install $gem
+	else
+		echo "Upating $gem"
+		sudo gem update $gem
+	fi
+done
 
 if [ "`$ffbin --version | grep 3.5.2`" = "" ]; then
 	echo "> Downloading Firefox 3.5.2 - you must use this version at the moment."
