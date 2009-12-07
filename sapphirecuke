@@ -12,4 +12,4 @@ I couldn't find ./sapphire/main.php.
 fi
 
 dirname=`dirname $0`
-$dirname/toss $1 `./sapphire/sake SapphireInfo/baseurl` */tests/cuke/*.feature
+$dirname/browsercuke $1 `./sapphire/sake SapphireInfo/baseurl` */tests/cuke/*.feature
