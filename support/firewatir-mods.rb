@@ -5,7 +5,7 @@ class Element
   # Feature missing from FireWatir
   def visible?
     js = "(function(el) {
-      var w = getWindows()[0].content;
+      var w = getWindows()[#{$browser.window_index}].content;
       while(el && el != w.document) {
         var s = w.getComputedStyle(el, null);
         if(s.getPropertyValue('display') == 'none' || s.getPropertyValue('visibility') == 'hidden') return false;
@@ -23,11 +23,24 @@ class FireWatir::Firefox
   
     outerScript = <<-eos
     (function(window) {
-      var _evaluate_script_value = #{script};
-      return _evaluate_script_value;
-    })(getWindows()[0].content);
+      #{script};
+    })(getWindows()[#{@window_index}].content);
     eos
+    
+    return self.js_eval(outerScript)
+  end
+
+  def evaluate_script_alternate(script)
+    # Warning: don't use // comments in the JS, only /* */, because newlines are removed
   
+    outerScript = <<-eos
+    var _old_window = window;
+    var window = getWindows()[#{@window_index}].content;
+    #{script};
+    window = _old_window;
+    delete _old_window;
+    eos
+    
     return self.js_eval(outerScript)
   end
 end

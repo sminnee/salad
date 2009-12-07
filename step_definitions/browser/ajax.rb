@@ -20,8 +20,6 @@ def ajax_before_action(browser)
   # Warning: don't use // comments in the JS, only /* */, because newlines are removed
   
   js = <<-eos
-      "already patched: " + window.__ajaxPatch;
-      
       window.__ajaxStatus = function() { return 'no ajax'; };
 
       if(typeof window.__ajaxPatch == 'undefined') {
@@ -34,10 +32,10 @@ def ajax_before_action(browser)
           window.Ajax.Request.prototype.initialize = function(url, options) {
             this.transport = window.Ajax.getTransport();
 
-            var __activeTransport = this.transport
+            var __activeTransport = this.transport;
             window.__ajaxStatus = function() {
               return (__activeTransport.readyState == 4) ? 'success' : 'waiting';
-            }
+            };
 
             this.setOptions(options);
             this.request(url);
@@ -50,16 +48,18 @@ def ajax_before_action(browser)
           var _orig_ajax = window.jQuery.ajax;
 
           window.jQuery(window).ajaxStop(function() {
-            window.__ajaxStatus = function() { return 'success'; }
+            window.__ajaxStatus = function() { return 'success'; };
           });
         
           window.jQuery.ajax = function(s) {
-            window.__ajaxStatus = function() { return 'waiting'; }
+            window.__ajaxStatus = function() { return 'waiting'; };
             _orig_ajax(s);
-          }
+          };
           patchedList += " jquery";
         }
-        return "patched" + patchedList
+        return "patched" + patchedList;
+      } else {
+        return "already patched: " + window.__ajaxPatch;
       }
   eos
   
@@ -75,9 +75,9 @@ end
 
 def ajax_after_action(browser)
   Watir::Waiter::wait_until {
-    status = browser.evaluate_script("window.__ajaxStatus ? window.__ajaxStatus() : 'no ajax'")
+    status = browser.evaluate_script("return window.__ajaxStatus ? window.__ajaxStatus() : 'no ajax'")
     # For debugging
-    #puts "Waiting for ajax: #{status}"
+    # puts "Waiting for ajax: #{status}"
     status != "waiting"
   }
 end
