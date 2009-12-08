@@ -27,8 +27,9 @@ module Watir
       def for
         return attr('for') || ''
       end
-      def name
-        return attr('name') || ''
+      # This htmlname rather than name because name seems to have a special meaning in some versions of Ruby.
+      def htmlname
+        return @scripter.get_attribute('name', self) || ''
       end
       def value
         return @scripter.get_value_for(self) || ''

@@ -15,6 +15,9 @@ class Element
     })(#{element_object});"
     return js_eval(js) == 'true'
   end
+  def htmlname
+    return name()
+  end
 end
 
 class FireWatir::Firefox
