@@ -44,7 +44,11 @@ def getTextField(browser, type)
   }
   # By Name
   browser.text_fields().each { | field |
-    if field.htmlname == type then fields.push field end
+    if field.respond_to?('htmlname') then
+      if field.htmlname == type then fields.push field end
+    else
+      if field.name == type then fields.push field end
+    end
   }
   # By the associated <label>
   browser.elements_by_xpath("//label[.='#{type}']").each { | label |
