@@ -1,20 +1,10 @@
-echo "Browser Salad OS X installer
+#!/usr/bin/env bash
+echo "Browsercuke OS X installer
 ===========================
 "
 
 ffbin=/Applications/Firefox.app/Contents/MacOS/firefox-bin
 
-echo "> Installing necessary Gems"
-
-for gem in cucumber firewatir safariwatir rb-appscript; do
-	if [ "`gem list --local | grep $gem`" = "" ]; then
-		echo "Installing $gem"
-		sudo gem install $gem
-	else
-		echo "Upating $gem"
-		sudo gem update $gem
-	fi
-done
 
 if [ ! -f jssh-3.5.x-Darwin-param.xpi ]; then
 	echo "> Downloading Firefox 3.5 JSSH plugin"
@@ -35,7 +25,7 @@ Done!
 
 You should be able to run one of these commands now:
 
-./toss firefox http://localhost/yourtestsite create-page.feature
-./toss safari http://localhost/yourtestsite create-page.feature
+browsercuke firefox http://localhost/yourtestsite create-page.feature
+browsercuke safari http://localhost/yourtestsite create-page.feature
 
 "

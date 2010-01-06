@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 if [ "$2" = "" ]; then
 	echo "Usage: $0 (browser) (url) (feature-file) (other cucumber args)
 	
@@ -24,5 +25,5 @@ if [ -d sapphire/tests/cuke ]; then
 	done
 fi
 
-#echo "cucumber -r $basedir/support -r $basedir/step_definitions $extras $3 $4 $5 $6 $7 $8 $9"
+echo "cucumber -r $basedir/support -r $basedir/step_definitions $extras $3 $4 $5 $6 $7 $8 $9"
 cucumber -r $basedir/support -r $basedir/step_definitions $extras $3 $4 $5 $6 $7 $8 $9
