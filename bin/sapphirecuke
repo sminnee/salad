@@ -1,16 +1,26 @@
-#!/usr/bin/env bash
-if [ "$1" = "" ]; then
-	echo "Usage: $0 (browser)
+#!/usr/bin/env ruby
+if ARGV.count < 1 then
+	puts "Usage: $0 (browser)
 "
 	exit 1
-fi
+end
 
-if [ ! -f sapphire/main.php ]; then
-	echo "Please run $0 from within your sapphire project root.
+if not File.exist?('sapphire/main.php') then
+	puts "Please run $0 from within your sapphire project root.
 I couldn't find ./sapphire/main.php.
 "
 	exit 2
-fi
+end
 
-dirname=`dirname $0`
-$dirname/browsercuke $1 `./sapphire/sake SapphireInfo/baseurl` */tests/cuke/*.feature
+# We can't reassign ARGV but we can manipulate its contents
+browser = ARGV[1]
+baseURL = `php ./sapphire/cli-script.php SapphireInfo/baseurl`
+features = "*/tests/cuke/*.feature"
+
+ARGV.clear
+ARGV << browser
+ARGV << baseURL
+ARGV << features
+
+# Call browsercuke
+load File.dirname(__FILE__) + '/browsercuke'

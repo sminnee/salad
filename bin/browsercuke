@@ -1,6 +1,10 @@
-#!/usr/bin/env bash
-if [ "$2" = "" ]; then
-	echo "Usage: $0 (browser) (url) (feature-file) (other cucumber args)
+#!/usr/bin/env ruby
+
+require 'ftools'
+require 'rubygems'
+
+if ARGV.count < 2 then
+	puts "Usage: $0 (browser) (url) (feature-file) (other cucumber args)
 	
 Run the given feature file using the URL has the test site, on the given browser.
 
@@ -10,20 +14,33 @@ Supported browsers:
 
 "
 	exit 1
-fi
+end
 
-basedir=`dirname $0`
-
-export BROWSERSALAD_BROWSER=$1
-export BROWSERSALAD_URL=$2
-
+# Build list of step def -r arguments
+baseDir = File.dirname(File.dirname(__FILE__))
+stepDefArgs = ['-r', baseDir + '/support', '-r', baseDir + '/step_definitions']
 
 # Special case for Sapphire applications - collect all the step_definitions from the modules
-if [ -d sapphire/tests/cuke ]; then
-	for file in `ls -1d */tests/cuke/step_definitions`; do
-		extras="$extras -r $file"
-	done
-fi
+if File.exist?('sapphire/tests/cuke') then
+  dirs = Dir.entries(".")
+	dirs.each do | item |
+		if File.exist?(item + '/tests/cuke') then
+			stepDefArgs << "-r"
+			stepDefArgs << item + '/tests/cuke'
+		end
+	end
+end
 
-echo "cucumber -r $basedir/support -r $basedir/step_definitions $extras $3 $4 $5 $6 $7 $8 $9"
-cucumber -r $basedir/support -r $basedir/step_definitions $extras $3 $4 $5 $6 $7 $8 $9
+# Pass data along to cucumber
+extraArgs = ARGV.dup
+ENV['BROWSERSALAD_BROWSER'] = extraArgs.shift
+ENV['BROWSERSALAD_URL'] = extraArgs.shift
+
+# We can't reassign ARGV but we can manipulate its contents
+ARGV.clear
+(stepDefArgs+extraArgs).each do |arg|
+  ARGV.push arg
+end
+
+# Call cucumber
+load Gem.bin_path('cucumber', 'cucumber', ">= 0")
