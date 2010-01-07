@@ -52,9 +52,37 @@ You will also need to make some changes on your system to get the browser
 
 ## SYNOPSIS:
 
-Run something like this to execute a test freature.
+Now it's time to create your first test.  As an example, we will test Google's search.  Create a
+file called `google-search.feature` and put this content into it.
 
-   browsercuke http://localhost/yoursite create-page.feature
+    Feature: Google Search
+    	As a user of the web
+    	I want to search for interesting websites
+    	So that I can find things on the web.
+
+    	Scenario: Search for SilverStripe
+    		Given I visit /
+    		When I put "SilverStripe" in the "q" field
+    		And I click the "Google Search" button
+    		Then I see "www.silverstripe.com"
+    		And I see "Open Source CMS / Framework"
+
+Run your test with this command.  You should see the text of your test printed in green, as it
+executes each line of the test.
+
+    $ browsercuke firefox http://www.google.com google-search.feature
+
+The arguments are as follows:
+
+ * `firefox` - the first argument specifies the browser: "firefox" or "safari"
+ * `http://www.google.com` - the second argument specifies the root URL of your site.  All URLs in
+   the test are specified relative to this URL.  That makes it easy to run your tests on different
+   instances of your application.
+ * `google-search.feature` - the final argument is the name of the .feature file to run.  You can
+   pass multiple files, or use wildcards, if you prefer.
+
+In addition to these arguments, you can pass any other cucumber arguments.  Call `cucumber --help`
+for more information.
 
 ### Using BrowserCuke to run tests from another project
 
