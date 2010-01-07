@@ -2,6 +2,6 @@
 # In time, the non-Watir ruby code that the step definitions make use of can be moved into this.
 module BrowserCuke
   class BrowserCuke
-    VERSION = "0.1.2"
+    VERSION = "0.1.3"
   end
 end
