@@ -246,7 +246,7 @@ To create a new release of the gem, to the following:
 
 Browsercuke is licensed under the BSD license
 
-Copyright (c) 2009, Sam Minnée  
+Copyright (c) 2009, SilverStripe Limited  
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
