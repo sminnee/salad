@@ -199,6 +199,21 @@ After checking out the source, run:
 This task will install any missing dependencies, run the tests/specs,
 and generate the RDoc.
 
+To create a new release of the gem, to the following:
+
+ * Update the version number in lib/browsercuke.rb
+ * Rebuild the manifest.  If it fails initially, create a manifest containaining only 
+   `lib/browsercuke.rb` and re-execute.
+
+         rake git:manifest
+
+ * Call `rake git:changelog` and put the result at the top of History.txt, with the appropriate
+   version number
+ * Commit the changes to lib/browsercuke.rb and History.txt with commit message like "Created vX.Y.Z"
+ * Package the gem and release it to Gemcutter
+
+         rake publish
+
 ## LICENSE:
 
 Browsercuke is licensed under the BSD license
