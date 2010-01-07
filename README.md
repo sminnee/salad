@@ -1,8 +1,8 @@
-= BrowserCuke
+# BrowserCuke
 
 http://github.com/sminnee/browsercuke
 
-== DESCRIPTION:
+## DESCRIPTION:
 
 BrowserCuke is a layer of browser-based testing on top of Cucumber.  It provides an intuitive way of
 writing business-readable tests for your web applications, that use real web browsers to test.  Your
@@ -14,7 +14,7 @@ For more information about Cucumber, see [the cucumber website](http://cukes.inf
 BrowserCuke currently uses Watir to perform the browser automation, although it may be extended in 
 the future to use something like WebRat to test applications sans-JavaScript.
 
-== FEATURES
+## FEATURES
 
  * Tests Safari and Firefox
  * Looks for page elements like a human would: e.g. ignores hidden elements, and you can use form element labels as identifiers.
@@ -37,28 +37,29 @@ Roadmap:
  * Add tests for colour and image changes
  * Get the FireWatir and SafariWatir monkey patches submitted to those upstream projects.
 
-== INSTALL:
+## INSTALL:
 
 BrowserCuke is packaged as a gem, so the easiest way of installing BrowserCuke is by running this
 command:
 
-  $ gem install browsercuke
+    $ gem install browsercuke
 
-After you have installed the gem, you should run this command to set up your browsers properly:
+You will also need to make some changes on your system to get the browser
 
-  $ browsercuke-setup
+ * Safari: Go to System Prefences -> Universal Access and check the box labelled 'Enable access for assistive devices'
+ * Firefox: Install the JSSH extension.  You can download it here:
+   * [OS X + FF 3.5](http://wiki.openqa.org/download/attachments/13893658/jssh-3.5.x-Darwin-param.xpi)
 
-== SYNOPSIS:
+## SYNOPSIS:
 
 Run something like this to execute a test freature.
 
    browsercuke http://localhost/yoursite create-page.feature
 
-=== Using BrowserCuke to run tests from another project
+### Using BrowserCuke to run tests from another project
 
 BrowserCuke doesn't come bundled with any actual tests, so usually you have to write tests as part
 of your project.
-
 
 This example runs a copy of BrowserCuke installed in ~/browsercuke to execute the features 
 contained in a Sapphire project.  `sake SapphireURL/baseurl` return the URL of the current Sapphire
@@ -67,11 +68,12 @@ project.
     browsercuke firefox `sake SapphireInfo/baseurl` */tests/cuke/*.feature
 
 Because BrowserCuke was written in order to support testing of Sapphire projects, we have a special
-script for this particular example.  This will probably go away as BrowserCuke matures
+script for this particular example.  This will probably be merged into Sapphire as BrowserCuke
+matures.
 
     sapphirecuke firefox
 
-=== Rules
+### Rules
 
 Please see [the cucumber website](http://cukes.info) for information about the exact cucumber 
 syntax.
@@ -179,7 +181,7 @@ Misc
 
 ### I put "(text)" in pop-ups
 
-== REQUIREMENTS:
+## REQUIREMENTS:
 
 Currently browsercuke works with the following browsers.
 
@@ -188,16 +190,16 @@ Currently browsercuke works with the following browsers.
 
 It has been tested on OS X only; Windows and IE support coming soon!
 
-== DEVELOPERS:
+## DEVELOPERS:
 
 After checking out the source, run:
 
-  $ rake newb
+    $ rake newb
 
 This task will install any missing dependencies, run the tests/specs,
 and generate the RDoc.
 
-== LICENSE:
+## LICENSE:
 
 Browsercuke is licensed under the BSD license
 
