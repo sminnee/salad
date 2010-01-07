@@ -5,6 +5,8 @@ Watir API
 
 =end
 
+if $browserName and $browserName.downcase == 'safari'
+
 require 'safariwatir'
 
 module Watir
@@ -164,4 +166,6 @@ module Watir
     end
 
   end
+end
+
 end
