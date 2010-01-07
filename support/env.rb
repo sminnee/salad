@@ -2,7 +2,7 @@ require 'spec'
 
 $killFF = false
  
-if ENV['BROWSERSALAD_BROWSER'] and ENV['BROWSERSALAD_BROWSER'].downcase == 'safari'
+if $browserName and $browserName.downcase == 'safari'
   require 'safariwatir'
   Browser = Watir::Safari
 else
@@ -73,8 +73,7 @@ end
 # Set up 
 $browser = Browser.new
 
-if ENV['BROWSERSALAD_URL'] then
-  $baseURL = ENV['BROWSERSALAD_URL']
+if $baseURL then
   if not $baseURL.match(/\/$/) then
       $baseURL += '/'
   end

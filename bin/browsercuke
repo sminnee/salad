@@ -33,8 +33,9 @@ end
 
 # Pass data along to cucumber
 extraArgs = ARGV.dup
-ENV['BROWSERSALAD_BROWSER'] = extraArgs.shift
-ENV['BROWSERSALAD_URL'] = extraArgs.shift
+
+$browserName = extraArgs.shift
+$baseURL = extraArgs.shift
 
 # We can't reassign ARGV but we can manipulate its contents
 ARGV.clear

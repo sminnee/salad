@@ -12,15 +12,27 @@ I couldn't find ./sapphire/main.php.
 	exit 2
 end
 
-# We can't reassign ARGV but we can manipulate its contents
-browser = ARGV[1]
+browser = ARGV[0]
 baseURL = `php ./sapphire/cli-script.php SapphireInfo/baseurl`
-features = "*/tests/cuke/*.feature"
 
+# By default, use "*/tests/cuke/*.feature" as the features
+if ARGV.count == 1 then
+  features = []
+  Dir.glob("*/tests/cuke/*.feature").each { |filename|
+    features << filename
+  }
+
+# Otherwise take the feature from ARGV
+else
+  features = ARGV.dup
+  features.shift
+end
+
+# We can't reassign ARGV but we can manipulate its contents
 ARGV.clear
 ARGV << browser
 ARGV << baseURL
-ARGV << features
+features.each { |item| ARGV << item }
 
 # Call browsercuke
 load File.dirname(__FILE__) + '/browsercuke'
