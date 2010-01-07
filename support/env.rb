@@ -2,12 +2,13 @@ require 'spec'
 
 $killFF = false
  
-if $browserName and $browserName.downcase == 'safari'
+$browserName = 'firefox' unless $browserName
+case $browserName.downcase
+when /safari/
   require 'safariwatir'
   Browser = Watir::Safari
-else
-  case RUBY_PLATFORM
-  when /darwin/
+
+when /firefox/
     require 'firewatir'
 
     class FireWatir::Firefox
@@ -59,15 +60,13 @@ else
     Watir::Browser.default = 'firefox'
     Browser = Watir::Browser
     $killFF = true
-  when /win32|mingw/
-    require 'watir'
-    Browser = Watir::IE
-  when /java/
-    require 'celerity'
-    Browser = Celerity::Browser
-  else
-    raise "This platform is not supported (#{PLATFORM})"
-  end
+
+when /ie/
+  require 'watir'
+  Browser = Watir::IE
+
+else
+  raise "Bad browser '#{$browserName}'.  Please use 'firefox', 'ie', or 'safari'"
 end
 
 # Set up 
