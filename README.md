@@ -56,7 +56,7 @@ this command from a command-line prompt within the rubygems-1.3.5 directory that
 
 Now, run this command:
 
-    $ gem install browsercuke watir
+    $ gem install browsercuke watir win32console
 
 Finally, install the Firefox extension, JSSH.  You can download it here:
 
