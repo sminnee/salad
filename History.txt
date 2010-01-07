@@ -1,3 +1,7 @@
+=== 0.1.1 / 2010-01-07
+
+* BUGFIX: Fixed problems with gem dependencies
+
 === 0.1.0 / 2010-01-07
 
 * Initial release as a rubygem
