@@ -1,3 +1,11 @@
+=== 0.1.2 / 2010-01-07
+
+* Reformatted license
+* Added instructions for creating new releases to the README.md
+* Removed the broken and unnecessary browsercuke-setup CLI tool
+* Fixed browsercuke & sapphirecuke CLI tools to be written in ruby (necessary for them to work).
+* Moved version number to a better location.  The existence of the lib/ directory makes Hoe run better.
+
 === 0.1.1 / 2010-01-07
 
 * BUGFIX: Fixed problems with gem dependencies
