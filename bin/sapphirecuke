@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-if ARGV.count < 1 then
+if ARGV.length < 1 then
 	puts "Usage: $0 (browser)
 "
 	exit 1
@@ -16,7 +16,7 @@ browser = ARGV[0]
 baseURL = `php ./sapphire/cli-script.php SapphireInfo/baseurl`
 
 # By default, use "*/tests/cuke/*.feature" as the features
-if ARGV.count == 1 then
+if ARGV.length == 1 then
   features = []
   Dir.glob("*/tests/cuke/*.feature").each { |filename|
     features << filename
