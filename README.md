@@ -2,7 +2,7 @@
 
 http://github.com/sminnee/browsercuke
 
-## DESCRIPTION:
+## DESCRIPTION
 
 BrowserCuke is a layer of browser-based testing on top of Cucumber.  It provides an intuitive way of
 writing business-readable tests for your web applications, that use real web browsers to test.  Your
@@ -37,20 +37,53 @@ Roadmap:
  * Add tests for colour and image changes
  * Get the FireWatir and SafariWatir monkey patches submitted to those upstream projects.
 
-## INSTALL:
+## INSTALL
 
-BrowserCuke is packaged as a gem, so the easiest way of installing BrowserCuke is by running this
-command:
+BrowserCuke is packaged as a Ruby gem.  There are also a few platform-specific steps that you need
+to perform.  Platform-specific installation instructions are as follows.
 
-    $ gem install browsercuke
+### Windows
 
-You will also need to make some changes on your system to get the browser
+On Windows, we recommend that you use Ruby 1.8.6 and not a more recent version.  If you use a
+different version of Ruby, you will also need to install build tools to compile native extensions.
 
- * Safari: Go to System Prefences -> Universal Access and check the box labelled 'Enable access for assistive devices'
- * Firefox: Install the JSSH extension.  You can download it here:
-   * [OS X + FF 3.5](http://wiki.openqa.org/download/attachments/13893658/jssh-3.5.x-Darwin-param.xpi)
+[You can download the one-click installer here](http://rubyforge.org/frs/download.php/29263/ruby186-26.exe)
 
-## SYNOPSIS:
+You will then need to update RubyGems.  [Download from here](http://gemcutter-production.s3.amazonaws.com/rubygems/rubygems-1.3.5.zip), extract, and run
+this command from a command-line prompt within the rubygems-1.3.5 directory that it contains:
+
+    $ ruby setup.rb
+
+Now, run this command:
+
+    $ gem install browsercuke watir
+
+Finally, install the Firefox extension, JSSH.  You can download it here:
+
+ * [Firefox 2.0/Win](http://wiki.openqa.org/download/attachments/13893658/jssh-WINNT-2.x.xpi)
+ * [Firefox 3.0/Win](http://wiki.openqa.org/download/attachments/13893658/jssh-20080708-WINNT.xpi)
+ * [Firefox 3.5/Win](http://wiki.openqa.org/download/attachments/13893658/jssh-3.5.x-WINNT.xpi)
+
+You are now set up to run browsercuke tests on IE and Firefox.
+
+### OS X
+
+If you have Leopard or Snow Leopard, then you should have Ruby all set up.  Open Terminal and
+run this command:
+
+    $ gem install browsercuke safariwatir rb-appscript
+
+Go to System Prefences -> Universal Access and check the box labelled 'Enable access for assistive devices'.
+
+Finally, install the Firefox extension, JSSH.  You can download it here:
+
+ * [Firefox 2.0/OS X](http://wiki.openqa.org/download/attachments/13893658/jssh-darwin-0.94.xpi?version=1)
+ * [Firefox 3.0/OS X](http://wiki.openqa.org/download/attachments/13893658/jssh-20080924-Darwin.xpi)
+ * [Firefox 3.5/OS X](ttp://wiki.openqa.org/download/attachments/13893658/jssh-3.5.x-Darwin-param.xpi)
+
+You are now set up to run browsercuke tests on Safari an Firefox.
+
+## SYNOPSIS
 
 Now it's time to create your first test.  As an example, we will test Google's search.  Create a
 file called `google-search.feature` and put this content into it.
@@ -209,7 +242,7 @@ Misc
 
 ### I put "(text)" in pop-ups
 
-## REQUIREMENTS:
+## REQUIREMENTS
 
 Currently browsercuke works with the following browsers.
 
@@ -218,7 +251,7 @@ Currently browsercuke works with the following browsers.
 
 It has been tested on OS X only; Windows and IE support coming soon!
 
-## DEVELOPERS:
+## DEVELOPERS
 
 After checking out the source, run:
 
@@ -242,7 +275,7 @@ To create a new release of the gem, to the following:
 
          rake publish
 
-## LICENSE:
+## LICENSE
 
 Browsercuke is licensed under the BSD license
 
