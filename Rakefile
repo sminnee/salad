@@ -9,6 +9,7 @@ Hoe.spec 'browsercuke' do
   developer('Sam Minnée', 'sam@silverstripe.com')
   
   extra_deps << ['cucumber', '>= 0.4.4']
+  extra_deps << ['rspec', '>= 1.2.9']
   extra_deps << ['firewatir', '>= 1.6.5']
   
 # We don't include these dependencies because they are OSX only.  If these are included, then you
