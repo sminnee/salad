@@ -90,11 +90,12 @@ Before do
 end
  
 at_exit do
-  # Let us see the aftermath for 10 seconds
-  sleep 10
-  
   # Kill database
   $browser.goto $baseURL + 'dev/tests/endsession'
 
+  # Kill Firefox
   if $killFF then `killall -9 firefox-bin` end
+    
+  # Kill IE
+  if Browser == Watir::IE then $browser.close end
 end
