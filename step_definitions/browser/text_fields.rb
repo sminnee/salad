@@ -51,21 +51,38 @@ def getTextField(browser, type)
     end
   }
   # By the associated <label>
-  browser.elements_by_xpath("//label[.='#{type}']").each { | label |
-    if label.for then
-      browser.text_fields().each { | field |
-        if field.id == label.for then fields.push field end
-      }
-    end
-  }
-  # By value
-  #fields += browser.text_fields(:value, type)
-  # By CSS Class
-  #fields += browser.text_fields(:class, type)
+  matchingLabels = browser.elements_by_xpath("//label[.='#{type}']")
+  if matchingLabels then
+    matchingLabels.each { | label |
+      labelFor = getAttribute(label, 'for')
+
+      if labelFor then
+        browser.text_fields().each { | field |
+          if getAttribute(field,'id') == labelFor then fields.push field end
+        }
+      end
+    }
+  end
   
   # Return the first visible one
   fields.each { | field |
     if field.visible? then return field end
   }
   return nil
+end
+
+
+# Get an attribute of an element
+# Handles the differing behaviour between Watir, SafariWatir, and FireWatir
+def getAttribute(element, attrName)
+
+  if attrName == 'for' then ieAttrName = 'htmlFor'
+  elsif attrName == 'class' then ieAttrName = 'className'
+  else ieAttrName = attrName end
+
+  if element.respond_to?('attr') then return element.attr(attrName)
+  elsif element.respond_to?('attribute_value') then return element.attribute_value(ieAttrName)
+  else return element.getAttribute(ieAttrName)
+  end
+  
 end
