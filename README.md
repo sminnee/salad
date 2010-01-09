@@ -275,6 +275,13 @@ To create a new release of the gem, to the following:
 
          rake publish
 
+To run the browsercuke self tests, you should symlink the browsercuke source tree into a place
+accessible by a URL.  For example, you might check it out into `~/Sites/browsercuke`, which is 
+accessible at `http://localhost/browsercuke`.  You can then run the test suite like so:
+
+    cd ~/Sites/browsercuke
+    browsercuke ie|firefox|safari http://localhost/browsercuke tests/*.feature
+
 ## LICENSE
 
 Browsercuke is licensed under the BSD license
