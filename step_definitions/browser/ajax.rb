@@ -63,7 +63,11 @@ def ajax_before_action(browser)
       }
   eos
   
-  browser.evaluate_script(js)
+  if browser.respond_to?('execute_script')
+    browser.execute_script("(function() { #{js} })()")
+  else
+    browser.evaluate_script(js)
+  end
   
   #js = js.gsub(/[\n\r]/, "; ")
   #browser.js_eval(js)
@@ -75,7 +79,11 @@ end
 
 def ajax_after_action(browser)
   Watir::Waiter::wait_until {
-    status = browser.evaluate_script("return window.__ajaxStatus ? window.__ajaxStatus() : 'no ajax'")
+    if browser.respond_to?('execute_script')
+      status = browser.execute_script("window.__ajaxStatus ? window.__ajaxStatus() : 'no ajax'")
+    else
+      status = browser.evaluate_script("return window.__ajaxStatus ? window.__ajaxStatus() : 'no ajax'")
+    end
     # For debugging
     # puts "Waiting for ajax: #{status}"
     status != "waiting"

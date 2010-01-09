@@ -4,6 +4,8 @@ Given /cancel pop-ups/i do
   # Special case for FireWatir
   if @browser.respond_to?('evaluate_script_alternate')
     @browser.evaluate_script_alternate(script)
+  elsif @browser.respond_to?('execute_script')
+    @browser.execute_script(script)
   else
     @browser.evaluate_script(script)
   end
@@ -15,6 +17,8 @@ Given /confirm pop-ups/i do
   # Special case for FireWatir
   if @browser.respond_to?('evaluate_script_alternate')
     @browser.evaluate_script_alternate(script)
+  elsif @browser.respond_to?('execute_script')
+    @browser.execute_script(script)
   else
     @browser.evaluate_script(script)
   end
@@ -26,6 +30,8 @@ Given /put "(.*)" in the pop-up/i do | value |
   # Special case for FireWatir
   if @browser.respond_to?('evaluate_script_alternate')
     @browser.evaluate_script_alternate(script)
+  elsif @browser.respond_to?('execute_script')
+    @browser.execute_script(script)
   else
     @browser.evaluate_script(script)
   end
