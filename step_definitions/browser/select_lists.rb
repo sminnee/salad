@@ -3,29 +3,26 @@
 # The proper watir code will be executed regardless.
 
 Given /select "(.*)" from "(.*)"/i do |text, type|
-  if @browser.select_list(:id, type).exists? then
-     @browser.select_list(:id, type).select(text)
-
-  elsif @browser.select_list(:name, type).exists? then
-        @browser.select_list(:name, type).select(text)
-
-  elsif @browser.select_list(:value, type).exists? then
-        @browser.select_list(:value, type).select(text)
-
-  elsif @browser.select_list(:text, type).exists? then
-        @browser.select_list(:text, type).select(text)
-
-  elsif @browser.select_list(:index, type).exists? then
-        @browser.select_list(:index, type).select(text)
-
-  elsif @browser.select_list(:class, /(^|\s)#{type}(\s|$)/).exists? then
-        @browser.select_list(:class, /(^|\s)#{type}(\s|$)/).set(text)
+  selectList = getSelect(@browser, type)
+  if selectList
+    selectList.select(text)
   else
     fail("could not find what you asked for")
-  end 
+  end
 end
 
 Given /"(.*)" is selected in "(.*)"/i do |text, field|
   pending
 end
   
+  
+def getSelect(browser, match)
+  item = browser.select_list(:name, match)
+  if not item.exists? then item = browser.select_list(:id, match) end
+  if not item.exists? then item = browser.select_list(:xpath, match) end
+  if not item.exists? then item = nil end
+    
+  # To do: make more like textfield selection (by label, for example)
+
+  return item
+end
