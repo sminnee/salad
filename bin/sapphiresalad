@@ -39,5 +39,5 @@ ARGV << browser
 ARGV << baseURL
 features.each { |item| ARGV << item }
 
-# Call browsercuke
-load File.dirname(__FILE__) + '/browsercuke'
+# Call salad
+load File.dirname(__FILE__) + '/salad'

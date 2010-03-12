@@ -1,17 +1,17 @@
-# BrowserCuke
+# Salad
 
-http://github.com/sminnee/browsercuke
+http://github.com/sminnee/salad
 
 ## DESCRIPTION
 
-BrowserCuke is a layer of browser-based testing on top of Cucumber.  It provides an intuitive way of
+Salad is a layer of browser-based testing on top of Cucumber.  It provides an intuitive way of
 writing business-readable tests for your web applications, that use real web browsers to test.  Your
 test scripts can now be a way of communicating with your client how you have tested the application 
 and how it should work.
 
 For more information about Cucumber, see [the cucumber website](http://cukes.info).
 
-BrowserCuke currently uses Watir to perform the browser automation, although it may be extended in 
+Salad currently uses Watir to perform the browser automation, although it may be extended in 
 the future to use something like WebRat to test applications sans-JavaScript.
 
 ## FEATURES
@@ -39,7 +39,7 @@ Roadmap:
 
 ## INSTALL
 
-BrowserCuke is packaged as a Ruby gem.  There are also a few platform-specific steps that you need
+Salad is packaged as a Ruby gem.  There are also a few platform-specific steps that you need
 to perform.  Platform-specific installation instructions are as follows.
 
 ### Windows
@@ -56,7 +56,7 @@ this command from a command-line prompt within the rubygems-1.3.5 directory that
 
 Now, run this command:
 
-    $ gem install browsercuke watir win32console
+    $ gem install salad watir win32console
 
 Finally, install the Firefox extension, JSSH.  You can download it here:
 
@@ -64,14 +64,14 @@ Finally, install the Firefox extension, JSSH.  You can download it here:
  * [Firefox 3.0/Win](http://wiki.openqa.org/download/attachments/13893658/jssh-20080708-WINNT.xpi)
  * [Firefox 3.5/Win](http://wiki.openqa.org/download/attachments/13893658/jssh-3.5.x-WINNT.xpi)
 
-You are now set up to run browsercuke tests on IE and Firefox.
+You are now set up to run salad tests on IE and Firefox.
 
 ### OS X
 
 If you have Leopard or Snow Leopard, then you should have Ruby all set up.  Open Terminal and
 run this command:
 
-    $ gem install browsercuke safariwatir rb-appscript
+    $ gem install salad safariwatir rb-appscript
 
 Go to System Prefences -> Universal Access and check the box labelled 'Enable access for assistive devices'.
 
@@ -81,7 +81,7 @@ Finally, install the Firefox extension, JSSH.  You can download it here:
  * [Firefox 3.0/OS X](http://wiki.openqa.org/download/attachments/13893658/jssh-20080924-Darwin.xpi)
  * [Firefox 3.5/OS X](ttp://wiki.openqa.org/download/attachments/13893658/jssh-3.5.x-Darwin-param.xpi)
 
-You are now set up to run browsercuke tests on Safari an Firefox.
+You are now set up to run salad tests on Safari an Firefox.
 
 ## SYNOPSIS
 
@@ -103,7 +103,7 @@ file called `google-search.feature` and put this content into it.
 Run your test with this command.  You should see the text of your test printed in green, as it
 executes each line of the test.
 
-    $ browsercuke firefox http://www.google.com google-search.feature
+    $ salad firefox http://www.google.com google-search.feature
 
 The arguments are as follows:
 
@@ -117,22 +117,21 @@ The arguments are as follows:
 In addition to these arguments, you can pass any other cucumber arguments.  Call `cucumber --help`
 for more information.
 
-### Using BrowserCuke to run tests from another project
+### Using Salad to run tests from another project
 
-BrowserCuke doesn't come bundled with any actual tests, so usually you have to write tests as part
+Salad doesn't come bundled with any actual tests, so usually you have to write tests as part
 of your project.
 
-This example runs a copy of BrowserCuke installed in ~/browsercuke to execute the features 
-contained in a Sapphire project.  `sake SapphireURL/baseurl` return the URL of the current Sapphire
-project.
+This example runs a Salad to execute the features contained in a Sapphire project
+`sake SapphireURL/baseurl` return the URL of the current Sapphire project.
 
-    browsercuke firefox `sake SapphireInfo/baseurl` */tests/cuke/*.feature
+    salad firefox `sake SapphireInfo/baseurl` */tests/cuke/*.feature
 
-Because BrowserCuke was written in order to support testing of Sapphire projects, we have a special
-script for this particular example.  This will probably be merged into Sapphire as BrowserCuke
+Because Salad was written in order to support testing of Sapphire projects, we have a special
+script for this particular example.  This will probably be merged into Sapphire as Salad
 matures.
 
-    sapphirecuke firefox
+    sapphiresalad firefox
 
 ### Rules
 
@@ -244,7 +243,7 @@ Misc
 
 ## REQUIREMENTS
 
-Currently browsercuke works with the following browsers.
+Currently salad works with the following browsers.
 
  * Firefox 3.5
  * Safari
@@ -262,29 +261,29 @@ and generate the RDoc.
 
 To create a new release of the gem, to the following:
 
- * Update the version number in lib/browsercuke.rb
+ * Update the version number in lib/salad.rb
  * Rebuild the manifest.  If it fails initially, create a manifest containaining only 
-   `lib/browsercuke.rb` and re-execute.
+   `lib/salad.rb` and re-execute.
 
          rake git:manifest
 
  * Call `rake git:changelog` and put the result at the top of History.txt, with the appropriate
    version number
- * Commit the changes to lib/browsercuke.rb and History.txt with commit message like "Created vX.Y.Z"
+ * Commit the changes to lib/salad.rb and History.txt with commit message like "Created vX.Y.Z"
  * Package the gem and release it to Gemcutter
 
          rake publish
 
-To run the browsercuke self tests, you should symlink the browsercuke source tree into a place
-accessible by a URL.  For example, you might check it out into `~/Sites/browsercuke`, which is 
-accessible at `http://localhost/browsercuke`.  You can then run the test suite like so:
+To run the salad self tests, you should symlink the salad source tree into a place
+accessible by a URL.  For example, you might check it out into `~/Sites/salad`, which is 
+accessible at `http://localhost/salad`.  You can then run the test suite like so:
 
-    cd ~/Sites/browsercuke
-    browsercuke ie|firefox|safari http://localhost/browsercuke tests/*.feature
+    cd ~/Sites/salad
+    salad ie|firefox|safari http://localhost/salad tests/*.feature
 
 ## LICENSE
 
-Browsercuke is licensed under the BSD license
+Salad is licensed under the BSD license
 
 Copyright (c) 2009, SilverStripe Limited  
 All rights reserved.

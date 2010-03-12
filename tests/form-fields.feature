@@ -1,4 +1,4 @@
-Feature: Browsercuke self-tests for form fields
+Feature: Salad self-tests for form fields
 	
 	Scenario: Identify, populate, and read text fields
 		Given I visit tests/form-fields.html
