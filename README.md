@@ -79,7 +79,8 @@ Finally, install the Firefox extension, JSSH.  You can download it here:
 
  * [Firefox 2.0/OS X](http://wiki.openqa.org/download/attachments/13893658/jssh-darwin-0.94.xpi?version=1)
  * [Firefox 3.0/OS X](http://wiki.openqa.org/download/attachments/13893658/jssh-20080924-Darwin.xpi)
- * [Firefox 3.5/OS X](ttp://wiki.openqa.org/download/attachments/13893658/jssh-3.5.x-Darwin-param.xpi)
+ * [Firefox 3.5/OS X](http://wiki.openqa.org/download/attachments/13893658/jssh-3.5.x-Darwin-param.xpi)
+ * [Firefox 3.6/OS X](http://wiki.openqa.org/download/attachments/14188672/jssh-3.6-OSX.xpi)
 
 You are now set up to run salad tests on Safari an Firefox.
 
