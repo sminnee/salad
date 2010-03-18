@@ -11,18 +11,34 @@ Given /select "(.*)" from "(.*)"/i do |text, type|
   end
 end
 
+
 Given /"(.*)" is selected in "(.*)"/i do |text, field|
-  pending
+  field_elt = getSelect(@browser, field)
+
+  if field_elt then
+		fail("'#{text}' wasn't selected in the field '#{field}'") if field_elt.selected_options.find_index(text) == nil
+  else
+    fail("could not find the '#{field}' field on #{@browser.url}")
+  end
 end
-  
-  
+
+
 def getSelect(browser, match)
   item = browser.select_list(:name, match)
   if not item.exists? then item = browser.select_list(:id, match) end
   if not item.exists? then item = browser.select_list(:xpath, match) end
-  if not item.exists? then item = nil end
-    
-  # To do: make more like textfield selection (by label, for example)
+
+	# Try to find control by its label
+	if not item.exists? then
+		label = browser.label(:text, match)
+		if label.exists? then
+			itemid = label.attribute_value('for')
+			item = browser.select_list(:id, itemid)
+		end
+	end
+
+  if not item.exists? and item.visible? then item = nil end
 
   return item
 end
+
