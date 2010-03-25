@@ -3,7 +3,7 @@ Given /visit (.*)/o do |url|
 end
 
 Given /I am at (.*)/i do |url|
-  @browser.url.should =~ /^#{@baseURL}#{url}/
+  @salad.url(@browser).should =~ /^#{@baseURL}#{url}/
 end
 
   Given /I am sent to (.*)/i do |url|
