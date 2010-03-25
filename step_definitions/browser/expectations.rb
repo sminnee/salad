@@ -1,17 +1,9 @@
 Given /I see "(.*)"/ do |text|
-  describe "Matcher" do
-    it "should have text" do
-      @browser.should have_text(text)
-    end
-  end
+	fail("'#{text}' not found") unless @browser.contains_text(text)
 end
 
 Given /I don't see "(.*)"/ do |text|
-  describe "Matcher" do
-    it "shouldn't have text" do
-      @browser.should_not have_text(text)
-    end
-  end
+	fail("'#{text}' was found when it shouldn't be.") if @browser.contains_text(text)
 end
 
 Given /I wait for "(.*)"/ do |text|
