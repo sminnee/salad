@@ -1,6 +1,29 @@
 <html>
 	<head>
 		<title>salad test suite</title>
+		<script type="text/javascript" src="jQuery.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				$('#ID_AjaxButton1').click(function(e) {
+					$.post('ajax.php', {mode: 'longdelay'}, function(data, status, xhr){ $('#ID_AjaxResult').html(data); } );
+					e.preventDefault();
+				});
+				$('#ID_AjaxButton2').click(function(e) {
+					$.post('ajax.php', {mode: 'shortdelay'}, function(data, status, xhr){ $('#ID_AjaxResult').html(data); } );
+					e.preventDefault();
+				});
+				$('#ID_AjaxButton3').click(function(e) {
+					$.post('ajax.php', {mode: 'noreturn'}, function(data, status, xhr){ $('#ID_AjaxResult').html(data); } );
+					e.preventDefault();
+				});
+				$('#ID_ClearButton').click(function(e) {
+					$('#ID_AjaxResult').html('');
+				});
+			});
+		</script>
+		<style type="text/css">
+			#ID_AjaxResult { border: 1px solid black; margin: 0.25em; padding: 1em; background: #EEE; width: 50%;}
+		</style>
 	</head>
 	
 	<body>
@@ -46,6 +69,21 @@
 			</select>
 			</p>
 
+			<fieldset>
+				<legend>Check some of the following:</legend>
+				<label for="ID_CheckboxA">Item 1</label><input type="checkbox" id="ID_CheckboxA" name="CheckboxA" value="Item one" />
+				<label for="ID_CheckboxB">Item 2</label><input type="checkbox" id="ID_CheckboxB" name="CheckboxB" value="Item two" />
+				<label for="ID_CheckboxC">Item 3</label><input type="checkbox" id="ID_CheckboxC" name="CheckboxC" value="Item three" />
+			</fieldset>
+
+			<fieldset>
+				<legend>These buttons use ajax:</legend>
+				<input type="button" name="ajax1" id="ID_AjaxButton1" value="Long delay" />
+				<input type="button" name="ajax2" id="ID_AjaxButton2" value="Short delay" />
+				<input type="button" name="ajax3" id="ID_AjaxButton3" value="Nothing returned" />
+				<input type="button" name="ajax4" id="ID_ClearButton" value="Clear field" />
+				<div id="ID_AjaxResult"></div>
+			</fieldset>
 		</form>
 	</body>
 </html>
