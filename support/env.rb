@@ -1,5 +1,5 @@
 require 'spec'
-require 'salad.rb'
+require 'salad'
 
 $killFF = false
  
