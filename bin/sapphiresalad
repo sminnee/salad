@@ -6,7 +6,7 @@ if ARGV.length < 1 then
 end
 
 if not File.exist?('sapphire/main.php') then
-	puts "Please run $0 from within your sapphire project root.
+	puts "Please run #{$0} from within your sapphire project root.
 I couldn't find ./sapphire/main.php.
 "
 	exit 2
