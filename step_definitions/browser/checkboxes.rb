@@ -3,24 +3,45 @@
 # The proper watir code will be executed regardless.
 
 Given /click the "(.*)" checkbox/i do |type|
-  if @browser.checkbox(:id, type).exists? then
-     @browser.checkbox(:id, type).click
-  elsif
-    @browser.checkbox(:name, type).exists? then
-    @browser.checkbox(:name, type).click
-  elsif
-    @browser.checkbox(:value, type).exists? then
-    @browser.checkbox(:value, type).click
-  elsif
-    @browser.checkbox(:text, type).exists? then
-    @browser.checkbox(:text, type).click
-  elsif
-    @browser.checkbox(:index, type).exists? then
-    @browser.checkbox(:index, type).click
-  elsif
-    @browser.checkbox(:class, type).exists? then
-    @browser.checkbox(:class, type).click
-  else
+	checkbox = getCheckbox(@browser, type)
+  if checkbox then
+		checkbox.click()
+	else
     fail("could not find what you asked for")
   end
+end
+
+Given /checkbox "(.*)" is(\s+not)? checked/i do |field, wantUnchecked|
+	checkbox = getCheckbox(@browser, field)
+	wantUnchecked = (wantUnchecked != nil)
+	if checkbox then
+		isChecked = @salad.isChecked(checkbox)
+		if wantUnchecked then
+			fail("The checkbox #{field} was checked") if isChecked
+		else
+			fail("The checkbox #{field} was not checked") if not isChecked
+		end
+	else
+    fail("could not find what you asked for")
+	end
+end
+
+def getCheckbox(browser, field)
+	field_elt = nil
+	hows = [:id, :name, :value, :index, :class]
+
+	hows.each {|how|
+		if how == :index and not field.is_a?(Numeric) then next end
+		field_elt = browser.checkbox(how, field)
+		if field_elt and field_elt.exists? and field_elt.visible? then
+			break
+		end
+	}
+	# Try to find control by its label
+	if not (field_elt and field_elt.exists? and field_elt.visible?) then
+		field_elt = @salad.byLabel(field) {|id| @browser.checkbox(:id, id)}
+	end
+
+	field_elt = nil unless field_elt.exists? and field_elt.visible?
+	return field_elt
 end
