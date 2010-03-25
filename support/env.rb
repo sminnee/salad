@@ -1,4 +1,5 @@
 require 'spec'
+require 'salad.rb'
 
 $killFF = false
  
@@ -71,6 +72,7 @@ end
 
 # Set up 
 $browser = Browser.new
+$salad = Salad::Salad.new($browser)
 
 if $baseURL then
   if not $baseURL.match(/\/$/) then
@@ -87,11 +89,11 @@ end
 Before do
   @browser = $browser
   @baseURL = $baseURL
+  @salad = $salad
 end
  
 at_exit do
   # Kill database
-  $browser.goto $baseURL + 'dev/tests/endsession'
 
   # Kill Firefox
   if $killFF then `killall -9 firefox-bin` end
