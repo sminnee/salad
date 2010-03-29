@@ -69,9 +69,73 @@ module Watir
     def evaluate_script(script)
       return @scripter.evaluate_script(script)
     end
+
+				def attach(how, what)
+					return @scripter.attach(how, what)
+				end
   end
   
   class AppleScripter
+
+				def click_link(element = @element)
+					click = %/
+function baseTarget() {
+  var bases = document.getElementsByTagName('BASE');
+  if (bases.length > 0) {
+    return bases[0].target;
+  } else {
+    return;
+  }
+}
+function undefinedTarget(target) {
+  return target == undefined || target == '';
+}
+function topTarget(target) {
+  return undefinedTarget(target) || target == '_top';
+}
+function blankTarget(target) {
+	return target == '_blank'
+}
+function nextLocation(element) {
+  var target = element.target;
+  if (undefinedTarget(target) && baseTarget()) {
+    top[baseTarget()].location = element.href;
+  } else if (topTarget(target)) {
+    top.location = element.href;
+  } else if (blankTarget(target)) {
+		top[target] = window.open(element.href)
+  } else {
+    top[target].location = element.href;
+  }
+}
+var click = DOCUMENT.createEvent('HTMLEvents');
+click.initEvent('click', true, true);
+if (element.onclick) {
+ 	if (false != element.onclick(click)) {
+		nextLocation(element);
+	}
+} else {
+	nextLocation(element);
+}/
+					page_load do
+						execute(js.operate(find_link(element), click))
+					end
+				end
+
+				def attach(how, what)
+					doc = nil
+					docs = @app.get(@app.documents)
+					if how == :url then
+						docs.each {|d| if @app.get(d.URL) == what then doc=d; break; end }
+					else
+						docs.each {|d| if @app.get(d.name) == what then doc=d; break; end }
+					end
+					print "Doc = #{doc}\n"
+					if doc then
+						@document = doc
+					end
+				end
+
     # Internal handler for Safari class to access
     def evaluate_script(script)
       return execute(script)

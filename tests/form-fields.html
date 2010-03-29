@@ -19,6 +19,11 @@
 				$('#ID_ClearButton').click(function(e) {
 					$('#ID_AjaxResult').html('');
 				});
+
+				$('#ID_GoogleLink').click(function(e) {
+					e.preventDefault();
+					window.open(this.href);
+				})
 			});
 		</script>
 		<style type="text/css">
@@ -83,6 +88,15 @@
 				<input type="button" name="ajax3" id="ID_AjaxButton3" value="Nothing returned" />
 				<input type="button" name="ajax4" id="ID_ClearButton" value="Clear field" />
 				<div id="ID_AjaxResult"></div>
+			</fieldset>
+
+			<fieldset>
+				<legend>These are links, some of which open popups:</legend>
+				<ul>
+					<li><a href="http://silverstripe.com" target="_blank">SilverStripe</a></li>
+					<li><a href="http://silverstripe.org">SilverStripe.org</a></li>
+					<li><a id="ID_GoogleLink" href="http://www.google.com">Google</a></li>
+				</ul>
 			</fieldset>
 		</form>
 	</body>
