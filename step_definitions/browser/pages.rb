@@ -6,6 +6,10 @@ Given /I am at (.*)/i do |url|
   @salad.url().should =~ /^#{@baseURL}#{url}/
 end
 
+Given /the website URL is (.*)/i do |url|
+  @salad.url().should =~ /^#{url}/
+end
+
 Given /I am sent to (.*)/i do |url|
 	Given "I am at #{url}"
 end
