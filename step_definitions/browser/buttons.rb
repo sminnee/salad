@@ -10,7 +10,7 @@ Given /click the "(.*)" button/i do |type|
     btn.click
     ajax_after_action @browser
   else
-    fail("could not find the '#{type}'button on #{@browser.url}")
+    fail("could not find the '#{type}' button on #{@browser.url}")
   end
 end
 
@@ -27,6 +27,7 @@ def getButton(browser, type)
 
   button = browser.button(:index, type) unless button.exists?
   button = browser.button(:class, type) unless button.exists?
+  button = browser.button(:name, type) unless button.exists?
   
   button = nil unless button.exists?
   return button
