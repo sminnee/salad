@@ -84,8 +84,8 @@ module Salad
 			end
 		end
 
-		def url(browser)
-			return self.evaluate_script_return(browser, 'window.location.href')
+		def url()
+			return self.evaluate_script_return(@browser, 'window.location.href')
 		end
   end
 end
