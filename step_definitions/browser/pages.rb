@@ -4,9 +4,9 @@ end
 
 Given /I am at (.*)/i do |url|
   if url =~ /^https?:\/\// then
-	  @salad.url().should =~ /^#{url}/
+    @salad.url().should =~ /^#{url}/
   else
-	  @salad.url().should =~ /^#{@baseURL}#{url}/
+    @salad.url().should =~ /^#{@baseURL}#{url}/
   end
 end
 
@@ -17,5 +17,5 @@ end
 Given /url (.*) (?:does not|doesn't) exist/ do |url|
   Given "I visit #{url}"
   # Brittle - needs to check that actual 404 status, but that's hard
-  And "I see \"The requested page couldn't be found.\""
+  And "I see \"The requested page could not be found.\""
 end
