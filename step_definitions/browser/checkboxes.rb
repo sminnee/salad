@@ -15,7 +15,7 @@ Given /checkbox "(.*)" is(\s+not)? checked/i do |field, wantUnchecked|
 	checkbox = getCheckbox(@browser, field)
 	wantUnchecked = (wantUnchecked != nil)
 	if checkbox then
-		isChecked = @salad.isChecked(checkbox)
+		isChecked = @salad.isChecked?(checkbox)
 		if wantUnchecked then
 			fail("The checkbox #{field} was checked") if isChecked
 		else

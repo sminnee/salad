@@ -21,7 +21,8 @@ module Salad
 			end
 		end
 
-		def isChecked(element)
+		# => is a checkbox checked or not?
+		def isChecked?(element)
 			isChecked = false
 			if element.respond_to?(:checked?) then
 				isChecked = element.checked?
@@ -37,7 +38,7 @@ module Salad
 		#		item = @salad.byLabel(match) {|id| @browser.select_list(:id, id)}
 		# @usage
 		#		itemid = @salad.byLabel(match)
-		#
+	  # => element or element_id
 		def byLabel(value, &create)
 			label = @browser.label(:text, value)
 			item = nil
@@ -54,6 +55,8 @@ module Salad
 			return item
 		end
 
+		# Selected options from a select_list, cross browser
+		# => array of options
 		def selected_options(element)
 			if element.respond_to?(:selected_options) then
 				return element.selected_options
@@ -76,6 +79,7 @@ module Salad
 			end
 		end
 
+		# Portable script evaluation, with return value.
 		def evaluate_script_return(browser, js)
 			if browser.respond_to?('execute_script') and not browser.instance_of?(FireWatir::Firefox)
 				browser.execute_script("(function() { return #{js} })()")
@@ -84,10 +88,12 @@ module Salad
 			end
 		end
 
+		# => Portable return of current URL
 		def url()
 			return self.evaluate_script_return(@browser, 'window.location.href')
 		end
 
+		# => Portably attach to another browser window
 		def attach(how, what)
 			begin
 				if defined?(Watir::IE) and @browser.instance_of?(Watir::IE) then
@@ -105,5 +111,5 @@ module Salad
 			return win
 		end
 
-  end
-end
+  end # class Salad
+end # module Salad
