@@ -16,7 +16,7 @@ Given /"(.*)" is selected in "(.*)"/i do |text, field|
   field_elt = getSelect(@browser, field)
 
   if field_elt then
-		fail("'#{text}' wasn't selected in the field '#{field}'") unless @salad.selected_options(field_elt).find_index(text)
+		fail("'#{text}' wasn't selected in the field '#{field}'") unless @salad.selected_options(field_elt).index(text)
   else
     fail("could not find the '#{field}' field on #{@browser.url}")
   end
