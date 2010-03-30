@@ -10,7 +10,7 @@ Feature: Salad self-tests for popup windows.
 		Given I visit tests/form-fields.html
 		And I click the "SilverStripe" link
 		And I look in the window "SilverStripe.com - Open Source CMS / Framework"
-		Then I see "Welcome to SilverStripe."
+		And I see "Welcome to SilverStripe"
 
 	Scenario: Test links which use window.open
 		Given I visit tests/form-fields.html

@@ -126,11 +126,10 @@ if (element.onclick) {
 					doc = nil
 					docs = @app.get(@app.documents)
 					if how == :url then
-						docs.each {|d| if @app.get(d.URL) == what then doc=d; break; end }
+						docs.each_with_index {|d, idx| if @app.get(d.URL)  == what then doc=@app.documents[idx]; break; end }
 					else
-						docs.each {|d| if @app.get(d.name) == what then doc=d; break; end }
+						docs.each_with_index {|d, idx| if @app.get(d.name) == what then doc=@app.documents[idx]; break; end }
 					end
-					print "Doc = #{doc}\n"
 					if doc then
 						@document = doc
 					end

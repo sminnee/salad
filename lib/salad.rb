@@ -89,17 +89,19 @@ module Salad
 		end
 
 		def attach(how, what)
-			if @browser.instance_of?(Watir::IE) then
-				# do it the hard way
-				begin
-					win = @browser = Watir::IE.attach(how, what)
-				rescue Watir::Exception::NoMatchingWindowFoundException
-					win = nil
+			begin
+				if defined?(Watir::IE) and @browser.instance_of?(Watir::IE) then
+					# do it the hard way
+					begin
+						win = @browser = Watir::IE.attach(how, what)
+					rescue Watir::Exception::NoMatchingWindowFoundException
+						win = nil
+					end
 				end
-			else
-				win = @browser.attach(how, what)
+			rescue NameError,MissingSourceFile
 			end
-			print "Win now = #{win.inspect()}\n"
+
+			win = @browser.attach(how, what) unless win
 			return win
 		end
 
