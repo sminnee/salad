@@ -62,6 +62,12 @@ module Watir
         @scripter.blur(self)
       end
     end
+
+    class Option < InputElement
+			def text
+				@scripter.get_option_text(self)
+			end
+		end
   end
   
   class Safari
@@ -76,6 +82,20 @@ module Watir
   end
   
   class AppleScripter
+		
+			def get_option_text(element)
+	      execute(element.operate do
+%|var opt = null;
+	for (var i = 0; i < element.options.length; i++) {
+		var elt = element.options[i];
+		if (elt.#{element.how} == '#{element.what}') {
+			opt = elt;
+			//console.log(elt, "#{element.how}  matches #{element.what}");
+		}
+	}
+	return opt.innerText;|
+				end, element)
+			end
 
 				def click_link(element = @element)
 					click = %/

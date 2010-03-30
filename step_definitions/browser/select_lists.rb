@@ -16,7 +16,7 @@ Given /"(.*)" is selected in "(.*)"/i do |text, field|
   field_elt = getSelect(@browser, field)
 
   if field_elt then
-		fail("'#{text}' wasn't selected in the field '#{field}'") if field_elt.selected_options.find_index(text) == nil
+		fail("'#{text}' wasn't selected in the field '#{field}'") unless @salad.selected_options(field_elt).find_index(text)
   else
     fail("could not find the '#{field}' field on #{@browser.url}")
   end
@@ -24,15 +24,15 @@ end
 
 
 def getSelect(browser, match)
-  item = browser.select_list(:name, match)
-  if not item.exists? then item = browser.select_list(:id, match) end
-  if not item.exists? then item = browser.select_list(:xpath, match) end
+  item = browser.select_list(:id, match)
+  item = browser.select_list(:name, match) unless item and item.exists? and item.visible?
+#  item = browser.select_list(:xpath, match) unless item and item.exists? and item.visible?
 
 	# Try to find control by its label
-	if not item.exists? then
+	if not (item.exists? and item.visible?) then
 		label = browser.label(:text, match)
 		if label.exists? then
-			itemid = label.attribute_value('for')
+			itemid = @salad.getAttribute(label, 'for')
 			item = browser.select_list(:id, itemid)
 		end
 	end
