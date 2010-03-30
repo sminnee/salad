@@ -99,5 +99,9 @@ at_exit do
   if $killFF then `killall -9 firefox-bin` end
     
   # Kill IE
-  if Browser == Watir::IE then $browser.close end
+  begin
+	  if Browser == Watir::IE then $browser.close end
+  rescue NameError
+  	# Ignore this if IE doesn't exist
+  end
 end
