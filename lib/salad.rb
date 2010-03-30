@@ -87,5 +87,21 @@ module Salad
 		def url()
 			return self.evaluate_script_return(@browser, 'window.location.href')
 		end
+
+		def attach(how, what)
+			if @browser.instance_of?(Watir::IE) then
+				# do it the hard way
+				begin
+					win = @browser = Watir::IE.attach(how, what)
+				rescue Watir::Exception::NoMatchingWindowFoundException
+					win = nil
+				end
+			else
+				win = @browser.attach(how, what)
+			end
+			print "Win now = #{win.inspect()}\n"
+			return win
+		end
+
   end
 end
