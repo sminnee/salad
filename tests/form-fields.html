@@ -23,7 +23,35 @@
 				$('#ID_GoogleLink').click(function(e) {
 					e.preventDefault();
 					window.open(this.href);
-				})
+				});
+
+				$('#ID_PopupButton1').click(function(e) {
+					e.preventDefault();
+					if (confirm("Click yes to this")) {
+						$('#ID_PopupText').html("Yes was clicked for PopupButton1");
+					} else {
+						$('#ID_PopupText').html("No was clicked for PopupButton1");
+					}
+				});
+				
+				$('#ID_PopupButton2').click(function(e) {
+					e.preventDefault();
+					if (confirm("Click yes to this")) {
+						$('#ID_PopupText').html("Yes was clicked for PopupButton2");
+					} else {
+						$('#ID_PopupText').html("No was clicked for PopupButton2");
+					}
+				});
+
+				$('#ID_PopupButton3').click(function(e) {
+					e.preventDefault();
+					var response = prompt("Enter some text");
+					if (response === false || response === null) {
+						$('#ID_PopupText').html("PopupButton3 was cancelled");
+					} else {
+						$('#ID_PopupText').html("You entered: " + response);
+					}
+				});
 			});
 		</script>
 		<style type="text/css">
@@ -91,11 +119,21 @@
 			</fieldset>
 
 			<fieldset>
-				<legend>These are links, some of which open popups:</legend>
+				<legend>These are links, some of which open new windows:</legend>
 				<ul>
 					<li><a href="http://silverstripe.com" target="_blank">SilverStripe</a></li>
 					<li><a href="http://silverstripe.org">SilverStripe.org</a></li>
 					<li><a id="ID_GoogleLink" href="http://www.google.com">Google</a></li>
+				</ul>
+			</fieldset>
+
+			<fieldset>
+				<legend>These buttons will cause confirm() popups</legend>
+				<ul>
+					<li><input type="button" id="ID_PopupButton1" name="popup1" value="Confirm one" /></li>
+					<li><input type="button" id="ID_PopupButton2" name="popup2" value="Confirm two" /></li>
+					<li><input type="button" id="ID_PopupButton3" name="popup3" value="Enter text" /></li>
+					<li><span id="ID_PopupText"></span></li>
 				</ul>
 			</fieldset>
 		</form>
