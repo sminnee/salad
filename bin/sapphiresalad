@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 if ARGV.length < 1 then
-	puts "Usage: $0 (browser)
+	puts "Usage: #{$0} (browser)
 "
 	exit 1
 end
@@ -23,6 +23,7 @@ end
 
 # By default, use "*/tests/cuke/*.feature" as the features
 if ARGV.length < 1 then
+  puts "Seeking feature files..."
   features = []
   Dir.glob("*/tests/cuke/*.feature").each { |filename|
     features << filename
