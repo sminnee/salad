@@ -3,11 +3,11 @@ Given /visit (.*)/o do |url|
 end
 
 Given /I am at (.*)/i do |url|
-  @salad.url().should =~ /^#{@baseURL}#{url}/
-end
-
-Given /the website URL is (.*)/i do |url|
-  @salad.url().should =~ /^#{url}/
+  if url =~ /^https?:\/\// then
+	  @salad.url().should =~ /^#{url}/
+  else
+	  @salad.url().should =~ /^#{@baseURL}#{url}/
+  end
 end
 
 Given /I am sent to (.*)/i do |url|

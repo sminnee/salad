@@ -21,7 +21,6 @@ module Salad
 			end
 		end
 
-		# => See if a checkbox is checked or not.
 		def isChecked(element)
 			isChecked = false
 			if element.respond_to?(:checked?) then
@@ -55,7 +54,6 @@ module Salad
 			return item
 		end
 
-		# => Crossbrowser list of selected options from a select_list
 		def selected_options(element)
 			if element.respond_to?(:selected_options) then
 				return element.selected_options
@@ -71,17 +69,13 @@ module Salad
 
 		# Portable script evaluation
 		def evaluate_script(browser, js)
-			# Special case for FireWatir
-			if browser.respond_to?('evaluate_script_alternate')
-				browser.evaluate_script_alternate(script)
-			elsif browser.respond_to?('execute_script')
-				browser.execute_script(script)
+			if browser.respond_to?('execute_script') and not browser.instance_of?(FireWatir::Firefox)
+				browser.execute_script("(function() { #{js} })()")
 			else
-				browser.evaluate_script(script)
+				browser.evaluate_script(js)
 			end
 		end
 
-		
 		def evaluate_script_return(browser, js)
 			if browser.respond_to?('execute_script') and not browser.instance_of?(FireWatir::Firefox)
 				browser.execute_script("(function() { return #{js} })()")
@@ -93,6 +87,5 @@ module Salad
 		def url()
 			return self.evaluate_script_return(@browser, 'window.location.href')
 		end
-		
   end
 end
