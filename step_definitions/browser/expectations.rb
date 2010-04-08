@@ -1,9 +1,9 @@
 Given /I see "(.*)"/ do |text|
-	fail("'#{text}' not found") unless @browser.contains_text(text)
+	fail("'#{text}' not found") unless @browser.text.include?(text)
 end
 
 Given /I don't see "(.*)"/ do |text|
-	fail("'#{text}' was found when it shouldn't be.") if @browser.contains_text(text)
+	fail("'#{text}' was found when it shouldn't be.") if @browser.text.include?(text)
 end
 
 Given /I wait for "(.*)"/ do |text|
