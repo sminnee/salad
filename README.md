@@ -16,23 +16,21 @@ the future to use something like WebRat to test applications sans-JavaScript.
 
 ## FEATURES
 
- * Tests Safari and Firefox
+ * Tests Safari, Firefox and IE
  * Looks for page elements like a human would: e.g. ignores hidden elements, and you can use form element labels as identifiers.
  * Automatically wait for ajax requests to complete.
 
 It currently has the following limitations:
 
- * No known Windows and IE support
  * No ability to test with JavaScript
  * Ajax auto-wait only works with Prototype and jQuery generated Ajax requests.
- * Testing of iframes and multiple windows is untested.
+ * Testing of iframes is untested.
  * No drag & drop tests.
 
 Roadmap:
 
- * Make it work in Windows/OSX/Linux and Firefox/Safari/IE
  * Add JS-disabled testing using WebRat
- * Ensure that you can test iframes and multiple windows intuitively
+ * Ensure that you can test iframes intuitively
  * Add tests for drag & drop
  * Add tests for colour and image changes
  * Get the FireWatir and SafariWatir monkey patches submitted to those upstream projects.
@@ -63,6 +61,7 @@ Finally, install the Firefox extension, JSSH.  You can download it here:
  * [Firefox 2.0/Win](http://wiki.openqa.org/download/attachments/13893658/jssh-WINNT-2.x.xpi)
  * [Firefox 3.0/Win](http://wiki.openqa.org/download/attachments/13893658/jssh-20080708-WINNT.xpi)
  * [Firefox 3.5/Win](http://wiki.openqa.org/download/attachments/13893658/jssh-3.5.x-WINNT.xpi)
+ * [Firefox 3.6/Win](http://wiki.openqa.org/download/attachments/13893658/jssh-3.6-WINNT.xpi?version=1&modificationDate=1264489925906)
 
 You are now set up to run salad tests on IE and Firefox.
 
@@ -108,7 +107,7 @@ executes each line of the test.
 
 The arguments are as follows:
 
- * `firefox` - the first argument specifies the browser: "firefox" or "safari"
+ * `firefox` - the first argument specifies the browser: "firefox" or "safari" or "ie"
  * `http://www.google.com` - the second argument specifies the root URL of your site.  All URLs in
    the test are specified relative to this URL.  That makes it easy to run your tests on different
    instances of your application.
@@ -158,8 +157,13 @@ Actions
 
 ### When I put "(value)" in the "(field identifier)" field / When I set "(field)" to "(value)"
 
+Multiple windows
+--------------------
+### When I look in the window "(URL or Title)"
+This changes which window the following assertions or actions apply to.
+
 Assertions
-----------
+------------
 
 ### Then I see "(text)"
 
@@ -246,10 +250,11 @@ Misc
 
 Currently salad works with the following browsers.
 
- * Firefox 3.5
- * Safari
+ * Firefox 3.5 / 3.6
+ * Safari (unsure of version limits)
+ * IE (unsure of version limits)
 
-It has been tested on OS X only; Windows and IE support coming soon!
+It has been tested on OS X and Windows only.
 
 ## DEVELOPERS
 
