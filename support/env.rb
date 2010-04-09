@@ -1,12 +1,13 @@
 require 'spec'
 require 'lib/salad'
 
-$killFF = false
+$kill = nil
  
 $browserName = 'firefox' unless $browserName
 case $browserName.downcase
 when /safari/
   require 'safariwatir'
+  $kill = 'safari'
   Browser = Watir::Safari
 
 when /firefox/
@@ -60,10 +61,11 @@ when /firefox/
 
     Watir::Browser.default = 'firefox'
     Browser = Watir::Browser
-    $killFF = true
+    $kill = 'firefox'
 
 when /ie/
   require 'watir'
+  $kill = 'ie'
   Browser = Watir::IE
 
 else
@@ -96,12 +98,16 @@ at_exit do
   # Kill database
 
   # Kill Firefox
-#  if $killFF then `killall -9 firefox-bin` end
-    
-  # Kill IE
-  begin
-	  if Browser == Watir::IE then $browser.close end
-  rescue NameError
-  	# Ignore this if IE doesn't exist
-  end
+  case $kill
+	when /firefox/
+		`killall -9 firefox-bin`
+	when /ie/
+		begin
+			if Browser == Watir::IE then $browser.close end
+		rescue NameError
+			# Ignore this if IE doesn't exist
+		end
+	when /safari/
+		`killall -9 Safari`
+	end
 end
