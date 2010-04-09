@@ -256,6 +256,14 @@ Currently salad works with the following browsers.
 
 It has been tested on OS X and Windows only.
 
+## COMMON PROBLEMS
+
+### Firefox running without JSSH.
+The best way to test with Firefox is to run Firefox with the command-line argument -ProfileManager, and create a new profile for Salad, and load this.  Install the JSSH extension into this profile, then quit Firefox and run Salad.
+
+### Multiple window tests failing.  
+Check that the Popup blocker for your browser is not running, or is at least set to allow the domain you're testing.
+
 ## DEVELOPERS
 
 After checking out the source, run:
