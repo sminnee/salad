@@ -1,16 +1,16 @@
 # This is a stub class for defining the version
 # In time, the non-Watir ruby code that the step definitions make use of can be moved into this.
 module Salad
-  class Salad
-    VERSION = "0.1.4"
+	class Salad
+		VERSION = "0.1.4"
 
 		def initialize(browser)
 			@browser = browser
 		end
 
-    	def browser()
-      		return @browser
-    	end
+		def browser()
+			return @browser
+		end
     
 		# Get an attribute of an element
 		# Handles the differing behaviour between Watir, SafariWatir, and FireWatir
@@ -42,7 +42,7 @@ module Salad
 		#		item = @salad.byLabel(match) {|id| @browser.select_list(:id, id)}
 		# @usage
 		#		itemid = @salad.byLabel(match)
-	  # => element or element_id
+		# => element or element_id
 		def byLabel(value, &create)
 			label = @browser.label(:text, value)
 			item = nil
@@ -99,7 +99,7 @@ module Salad
 
 		# => Portably attach to another browser window
 		def attach(how, what)
-      puts "Salad::attach(#{how}, #{what})"
+			#puts "Salad::attach(#{how}, #{what})"
 			begin
 				if defined?(Watir::IE) and @browser.instance_of?(Watir::IE) then
 					# do it the hard way
@@ -116,31 +116,31 @@ module Salad
 				# Assuming these are from IE missing errors above.
 			end
 
-      begin
-        win = @browser.attach(how, /#{what}/) unless win
-        puts "Attached using #{how} and /#{what}/" if win
-      rescue Watir::Exception::NoMatchingWindowFoundException
-        win = nil
-      end
-      unless win
-        begin
-          win = @browser.attach(how, what) unless win
-          puts "Attached using #{how} and '#{what}'" if win
-        rescue Watir::Exception::NoMatchingWindowFoundException
-          win = nil
-        end
-      end
-      unless win
-        begin
-          what = Regexp.quote(what)
-          win = @browser.attach(how, /#{what}/) unless win
-          puts "Attached using #{how} and quoted /#{what}/" if win
-        rescue Watir::Exception::NoMatchingWindowFoundException
-          win = nil
-        end
-      end
+			begin
+				win = @browser.attach(how, /#{what}/) unless win
+				#puts "Attached using #{how} and /#{what}/" if win
+			rescue Watir::Exception::NoMatchingWindowFoundException
+				win = nil
+			end
+			unless win
+				begin
+					win = @browser.attach(how, what) unless win
+					#puts "Attached using #{how} and '#{what}'" if win
+				rescue Watir::Exception::NoMatchingWindowFoundException
+					win = nil
+				end
+			end
+			unless win
+				begin
+					what = Regexp.quote(what)
+					win = @browser.attach(how, /#{what}/) unless win
+					#puts "Attached using #{how} and quoted /#{what}/" if win
+				rescue Watir::Exception::NoMatchingWindowFoundException
+					win = nil
+				end
+			end
 			return win
 		end
 
-  end # class Salad
+	end # class Salad
 end # module Salad
