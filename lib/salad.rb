@@ -4,10 +4,12 @@ module Salad
 	class Salad
 		VERSION = "0.1.4"
 
+		# Initialise Salad with a browser object.
 		def initialize(browser)
 			@browser = browser
 		end
 
+		# Getter for current @browser
 		def browser()
 			return @browser
 		end
@@ -25,7 +27,7 @@ module Salad
 			end
 		end
 
-		# => is a checkbox checked or not?
+		# Determine if a checkbox is checked or not?
 		def isChecked?(element)
 			isChecked = false
 			if element.respond_to?(:checked?) then
@@ -38,11 +40,11 @@ module Salad
 
 		# Try to find control by its label
 		# and then use the optional create block to create it
-		# @usage
+		# Usage
 		#		item = @salad.byLabel(match) {|id| @browser.select_list(:id, id)}
-		# @usage
+		# or:
 		#		itemid = @salad.byLabel(match)
-		# => element or element_id
+		# Returns: element or element_id
 		def byLabel(value, &create)
 			label = @browser.label(:text, value)
 			item = nil
@@ -60,7 +62,7 @@ module Salad
 		end
 
 		# Selected options from a select_list, cross browser
-		# => array of options
+		# returns an array of options
 		def selected_options(element)
 			if element.respond_to?(:selected_options) then
 				return element.selected_options
@@ -92,12 +94,14 @@ module Salad
 			end
 		end
 
-		# => Portable return of current URL
+		# Portable return of current URL
 		def url()
 			return self.evaluate_script_return(@browser, 'window.location.href')
 		end
 
-		# => Portably attach to another browser window
+		# Portably attach to another browser window
+		# how is :url or :title
+		# what is the content to match. may be a regex?
 		def attach(how, what)
 			#puts "Salad::attach(#{how}, #{what})"
 			begin
