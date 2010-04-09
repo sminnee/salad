@@ -16,19 +16,21 @@ end
 
 def getButton(browser, type)
   button = browser.button(:id, type)
-  button = browser.button(:value, type) unless button.exists?
+  button = browser.button(:value, type) unless button and button.exists? and button.visible?
 
   # :text used for Firefox suport
   if browser.instance_of?(FireWatir::Firefox)
-    button = browser.button(:text, type) unless button.exists?
+    button = browser.button(:text, type) unless button and button.exists? and button.visible?
   end
-  # :xpath used for Safari suport
-  button = browser.button(:xpath, "//button[.='#{type}']") unless button.exists?
 
-  button = browser.button(:index, type) unless button.exists?
-  button = browser.button(:class, type) unless button.exists?
-  button = browser.button(:name, type) unless button.exists?
+  button = browser.button(:index, type) if type.is_a?(Numeric) and not (button and button.exists? and button.visible?)
+  button = browser.button(:class, type) unless button and button.exists? and button.visible?
+  button = browser.button(:name, type) unless button and button.exists? and button.visible?
   
-  button = nil unless button.exists?
+  # :xpath used for Safari suport
+  button = browser.button(:xpath, "//button[.='#{type}']") unless button and button.exists? and button.visible?
+
+  
+  button = nil unless button and button.exists? and button.visible?
   return button
 end
