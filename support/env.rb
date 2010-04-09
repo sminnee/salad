@@ -1,5 +1,5 @@
 require 'spec'
-require 'lib/salad'
+require File.dirname(__FILE__) + '/../lib/salad'
 
 $kill = nil
  
