@@ -2,7 +2,7 @@
 # In time, the non-Watir ruby code that the step definitions make use of can be moved into this.
 module Salad
 	class Salad
-		VERSION = "0.1.4"
+		VERSION = "0.1.5"
 
 		# Initialise Salad with a browser object.
 		def initialize(browser)

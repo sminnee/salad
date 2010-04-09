@@ -1,3 +1,58 @@
+=== 0.1.5 / 2010-04-09
+
+* MINOR: Update README.md [Luke Hudson]
+* MINOR: More commenting for Salad [Luke Hudson]
+* MINOR: Add relative path to Salad require [Luke Hudson]
+* BUGFIX: Fix XPath button location for Safari [Luke Hudson]
+* BUGFIX: Fix getButton, so it doesn't try :index for string params [Luke Hudson]
+* BUGFIX: Reinstate closing of browsers [Luke Hudson]
+* MINOR: Remove debug lines and re-indent [Luke Hudson]
+* FEATURE: Enable cross-browser window handling for all browsers. [Luke Hudson]
+* BUGFIX: Cross-browser expectations fix [Luke Hudson]
+* ENHANCEMENT: Check basic "I see" assumptions [Luke Hudson]
+* BUGFIX: Fix wording for S.S. 404 page, and fix whitespace [Luke Hudson]
+* MINOR: Usage help for binaries [Luke Hudson]
+* ENHANCEMENT: Add testing for popups.rb [Luke Hudson]
+* BUGFIX: Ignore errors with IE if it doesn't exist [Luke Hudson]
+* BUGFIX: Use Array.index instead of Array.find_index, suits windows Ruby better [Luke Hudson]
+* BUGFIX: Fix select-lists on safari [Luke Hudson]
+* APICHANGE: Use isChecked? instead of isChecked [Luke Hudson]
+* ENHANCEMENT: Handle multi-windows on Safari,IE,and Firefox [Luke Hudson]
+* BUGFIX/ENHANCEMENT: Handle multiple windows in IE [Luke Hudson]
+* ENHANCEMENT: 'I am at' handles absolute URLs [Luke Hudson]
+* BUGFIX: Grab button by name attribute too [Luke Hudson]
+* FEATURE: Initial tests for new windows added [Luke Hudson]
+* MINOR: Use  Salad.evaluate_script [Luke Hudson]
+* FEATURE: add /the website URL is/ to match abs. URL [Luke Hudson]
+* MINOR: Change evualuate_script function, and add comments [Luke Hudson]
+* ENHANCEMENT: Fix URL-handling with Salad::url and add test for pages.rb [Luke Hudson]
+* BUGFIX: Improve window.location handling, with Salad::url [Luke Hudson]
+* MINOR: Added Manifest.txt for Rakefile [Luke Hudson]
+* MINOR: Require salad (may need installing via rake/gem, see README.md) [Luke Hudson]
+* MINOR: bugfix: error message [Luke Hudson]
+* MINOR: Remove un-needed label.rb [Luke Hudson]
+* BUGFIX: Fix handling of AJAX [Luke Hudson]
+* ENHANCEMENT: Add ajax testing [Luke Hudson]
+* BUGFIX: Fix "I see ..." [Luke Hudson]
+* ENHANCEMENT: Add Checkbox "is checked" handling [Luke Hudson]
+* ENHANCEMENT: Add helper routines to Salad [Luke Hudson]
+* Added tests for ajax etc. [Luke Hudson]
+* MINOR: Update readme with new OSX binary [Luke Hudson]
+* BUGFIX: Check for correct ARGV.length [Luke Hudson]
+* FEATURE: getSelect can work by label,  and: FEATURE: test for "x" is selected in field "y" works, and: [Luke Hudson]
+* Renamed 'browsercuke' to 'salad'.
+* Added initial self-tests for browsercuke.  Needs to have browsercuke available a webroot to execute them.
+* BUGFIX: Close the IE window after testing completed.
+* BUGFIX: Amended text field selection to work in IE.
+* BUGFIX: Change select_list match ordering to work in IE.  Restriction to visible fields only still pending.
+* BUGFIX: Updated JS execution to work in IE
+* ENHANCEMENT: Let users optionally pass a base URL to sapphirecuke
+* Changed the way that ie and firefox are selected on Windows, so that Win/Firefox can be tested.
+* Only apply safariwatir-mods.rb if you're actually using Safari (so that it doesn't break Windows)
+* Added instruction for windows to install win32console.
+* Added rspec as a dependency.
+* Replaced .count with the proper array length attribute, .length.
+
 === 0.1.4 / 2010-01-08
 
 * Removed OSX-specific dependencies, instead requiring the user to install these manually.
