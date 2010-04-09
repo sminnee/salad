@@ -3,7 +3,7 @@
 # The proper watir code will be executed regardless.
 
 Given /select "(.*)" from "(.*)"/i do |text, type|
-  selectList = getSelect(@browser, type)
+  selectList = getSelect(@salad.browser, type)
   if selectList
     selectList.select(text)
   else
@@ -13,12 +13,12 @@ end
 
 
 Given /"(.*)" is selected in "(.*)"/i do |text, field|
-  field_elt = getSelect(@browser, field)
+  field_elt = getSelect(@salad.browser, field)
 
   if field_elt then
 		fail("'#{text}' wasn't selected in the field '#{field}'") unless @salad.selected_options(field_elt).index(text)
   else
-    fail("could not find the '#{field}' field on #{@browser.url}")
+    fail("could not find the '#{field}' field on #{@salad.browser.url}")
   end
 end
 

@@ -1,17 +1,17 @@
 Given /I see "(.*)"/ do |text|
-	fail("'#{text}' not found") unless @browser.text.include?(text)
+	fail("'#{text}' not found") unless @salad.browser.text.include?(text)
 end
 
 Given /I don't see "(.*)"/ do |text|
-	fail("'#{text}' was found when it shouldn't be.") if @browser.text.include?(text)
+	fail("'#{text}' was found when it shouldn't be.") if @salad.browser.text.include?(text)
 end
 
 Given /I wait for "(.*)"/ do |text|
-  Watir::Waiter::wait_until { @browser.text.include? text}
+  Watir::Waiter::wait_until { @salad.browser.text.include? text}
 end
 
 Given /I wait for html "(.*)"/ do |text|
-  Watir::Waiter::wait_until { @browser.html.include? text}
+  Watir::Waiter::wait_until { @salad.browser.html.include? text}
 end
 
 # Wait for time

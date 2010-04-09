@@ -1,20 +1,20 @@
 Given /put "(.*)" in the "(.*)" field/i do |text,type|
-  field = getTextField(@browser, type)
+  field = getTextField(@salad.browser, type)
   if field then
      field.set(text) 
   else
-    fail("could not find the '#{type}' field to write '#{text}' into on #{@browser.url}")
+    fail("could not find the '#{type}' field to write '#{text}' into on #{@salad.browser.url}")
   end
 end  
 
 
 Given /The "(.*)" field is "(.*)"/i do |name, value|
-  field = getTextField(@browser, name)
+  field = getTextField(@salad.browser, name)
 
   if field then
      field.value.should == value
   else
-    fail("could not find the '#{name}' field on #{@browser.url}")
+    fail("could not find the '#{name}' field on #{@salad.browser.url}")
   end
 end
 

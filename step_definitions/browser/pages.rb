@@ -1,5 +1,5 @@
 Given /visit (.*)/o do |url|
-  @browser.goto(@baseURL + url)
+  @salad.browser.goto(@baseURL + url)
 end
 
 Given /I am at (.*)/i do |url|

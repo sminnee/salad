@@ -3,23 +3,23 @@
 # The proper watir code will be executed regardless.
 
 Given /click the "(.*)" image/i do |type|
-  if @browser.image(:src, type).exists? then
-     @browser.image(:src, type).click
+  if @salad.browser.image(:src, type).exists? then
+     @salad.browser.image(:src, type).click
   elsif 
-    @browser.image(:id, type).exists? then
-    @browser.image(:id, type).click
+    @salad.browser.image(:id, type).exists? then
+    @salad.browser.image(:id, type).click
   elsif 
-    @browser.image(:name, type).exists? then
-    @browser.image(:name, type).click
+    @salad.browser.image(:name, type).exists? then
+    @salad.browser.image(:name, type).click
   elsif 
-    @browser.image(:text, type).exists? then
-    @browser.image(:text, type).click
+    @salad.browser.image(:text, type).exists? then
+    @salad.browser.image(:text, type).click
   elsif 
-    @browser.image(:index, type).exists? then
-    @browser.image(:index, type).click
+    @salad.browser.image(:index, type).exists? then
+    @salad.browser.image(:index, type).click
   elsif 
-    @browser.image(:class, type).exists? then
-    @browser.image(:class, type).click
+    @salad.browser.image(:class, type).exists? then
+    @salad.browser.image(:class, type).click
   else
     fail("could not find what you asked for")  
   end

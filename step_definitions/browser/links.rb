@@ -3,12 +3,12 @@
 # The proper watir code will be executed regardless.
 
 Given /click the "(.*)" link/i do |type|
-  if link = getLink(@browser, type) then
-    ajax_before_action @browser
+  if link = getLink(@salad.browser, type) then
+    ajax_before_action @salad.browser
     link.click
-    ajax_after_action @browser
+    ajax_after_action @salad.browser
   else
-    fail("could not find the '#{type}' link on #{@browser.url}")
+    fail("could not find the '#{type}' link on #{@salad.browser.url}")
   end
 end
 

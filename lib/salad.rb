@@ -8,6 +8,10 @@ module Salad
 			@browser = browser
 		end
 
+    	def browser()
+      		return @browser
+    	end
+    
 		# Get an attribute of an element
 		# Handles the differing behaviour between Watir, SafariWatir, and FireWatir
 		def getAttribute(element, attrName)
@@ -95,19 +99,46 @@ module Salad
 
 		# => Portably attach to another browser window
 		def attach(how, what)
+      puts "Salad::attach(#{how}, #{what})"
 			begin
 				if defined?(Watir::IE) and @browser.instance_of?(Watir::IE) then
 					# do it the hard way
 					begin
-						win = @browser = Watir::IE.attach(how, what)
+						win = Watir::IE.attach(how, /#{what}/)
+						win = Watir::IE.attach(how, what) unless win
 					rescue Watir::Exception::NoMatchingWindowFoundException
 						win = nil
 					end
+					return nil unless win
+					@browser = win
 				end
 			rescue NameError,MissingSourceFile
+				# Assuming these are from IE missing errors above.
 			end
 
-			win = @browser.attach(how, what) unless win
+      begin
+        win = @browser.attach(how, /#{what}/) unless win
+        puts "Attached using #{how} and /#{what}/" if win
+      rescue Watir::Exception::NoMatchingWindowFoundException
+        win = nil
+      end
+      unless win
+        begin
+          win = @browser.attach(how, what) unless win
+          puts "Attached using #{how} and '#{what}'" if win
+        rescue Watir::Exception::NoMatchingWindowFoundException
+          win = nil
+        end
+      end
+      unless win
+        begin
+          what = Regexp.quote(what)
+          win = @browser.attach(how, /#{what}/) unless win
+          puts "Attached using #{how} and quoted /#{what}/" if win
+        rescue Watir::Exception::NoMatchingWindowFoundException
+          win = nil
+        end
+      end
 			return win
 		end
 

@@ -3,14 +3,14 @@
 # The proper watir code will be executed regardless.
 
 Given /click the "(.*)" button/i do |type|
-  btn = getButton(@browser, type)
+  btn = getButton(@salad.browser, type)
   
   if(btn) then
-    ajax_before_action @browser
+    ajax_before_action @salad.browser
     btn.click
-    ajax_after_action @browser
+    ajax_after_action @salad.browser
   else
-    fail("could not find the '#{type}' button on #{@browser.url}")
+    fail("could not find the '#{type}' button on #{@salad.browser.url}")
   end
 end
 

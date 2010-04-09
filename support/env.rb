@@ -1,5 +1,5 @@
 require 'spec'
-require 'salad'
+require 'lib/salad'
 
 $killFF = false
  
@@ -96,7 +96,7 @@ at_exit do
   # Kill database
 
   # Kill Firefox
-  if $killFF then `killall -9 firefox-bin` end
+#  if $killFF then `killall -9 firefox-bin` end
     
   # Kill IE
   begin
