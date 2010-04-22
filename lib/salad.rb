@@ -38,6 +38,34 @@ module Salad
 			return isChecked
 		end
 
+
+		# Portable getElement function.
+		# Usage: getElement('Item one', [:name, :id, :class, ...]) {|how,what| browser.button(how, what)}
+		def getElement(what, hows=nil, &createFn)
+			elt = nil
+			if hows == nil then
+				hows = [:id, :name, :value, :label, :index, :class]
+			end
+			hows.each {|how|
+				if how == :index and not what.is_a?(Numeric) then next end
+				if how == :label then
+					elt = self.byLabel(what) {|id| createFn.call(:id, id)}
+					if elt and elt.exists? and elt.visible? then
+						break
+					end
+				end
+				elt = createFn.call(how, what)
+				if elt and elt.exists? and elt.visible? then
+					break
+				end
+			}
+			# Try to find control by its label
+			if not (elt and elt.exists? and elt.visible?) then
+			end
+
+			elt = nil unless elt.exists? and elt.visible?
+			return elt
+		end
 		# Try to find control by its label
 		# and then use the optional create block to create it
 		# Usage
