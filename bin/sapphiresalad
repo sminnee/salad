@@ -21,11 +21,11 @@ else
   baseURL = `php ./sapphire/cli-script.php SapphireInfo/baseurl`
 end
 
-# By default, use "*/tests/cuke/*.feature" as the features
+# By default, use "*/tests/salad/*.feature" as the features
 if ARGV.length < 1 then
   puts "Seeking feature files..."
   features = []
-  Dir.glob("*/tests/cuke/*.feature").each { |filename|
+  Dir.glob("*/tests/salad/*.feature").each { |filename|
     features << filename
   }
 

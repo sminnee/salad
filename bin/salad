@@ -21,12 +21,12 @@ baseDir = File.dirname(File.dirname(__FILE__))
 stepDefArgs = ['-r', baseDir + '/support', '-r', baseDir + '/step_definitions']
 
 # Special case for Sapphire applications - collect all the step_definitions from the modules
-if File.exist?('sapphire/tests/cuke') then
+if File.exist?('sapphire/tests/salad') then
   dirs = Dir.entries(".")
 	dirs.each do | item |
-		if File.exist?(item + '/tests/cuke') then
+		if File.exist?(item + '/tests/salad') then
 			stepDefArgs << "-r"
-			stepDefArgs << item + '/tests/cuke'
+			stepDefArgs << item + '/tests/salad'
 		end
 	end
 end
