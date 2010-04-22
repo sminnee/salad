@@ -11,7 +11,7 @@ Hoe.spec 'salad-common' do
   
   extra_deps << ['cucumber', '>= 0.6.3']
   extra_deps << ['rspec', '>= 1.2.9']
-  extra_deps << ['firewatir', '>= 1.65']
+  extra_deps << ['firewatir', '>= 1.6.5']
   
 end
 
