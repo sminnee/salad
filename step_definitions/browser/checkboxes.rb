@@ -3,7 +3,7 @@
 # The proper watir code will be executed regardless.
 
 Given /click the "(.*)" checkbox/i do |type|
-	checkbox = getCheckbox(@salad.browser, type)
+	checkbox = getCheckbox(type)
   if checkbox then
 		checkbox.click()
 	else
@@ -12,7 +12,7 @@ Given /click the "(.*)" checkbox/i do |type|
 end
 
 Given /checkbox "(.*)" is(\s+not)? checked/i do |field, wantUnchecked|
-	checkbox = getCheckbox(@salad.browser, field)
+	checkbox = getCheckbox(field)
 	wantUnchecked = (wantUnchecked != nil)
 	if checkbox then
 		isChecked = @salad.isChecked?(checkbox)
@@ -26,22 +26,8 @@ Given /checkbox "(.*)" is(\s+not)? checked/i do |field, wantUnchecked|
 	end
 end
 
-def getCheckbox(browser, field)
-	field_elt = nil
-	hows = [:id, :name, :value, :index, :class]
 
-	hows.each {|how|
-		if how == :index and not field.is_a?(Numeric) then next end
-		field_elt = browser.checkbox(how, field)
-		if field_elt and field_elt.exists? and field_elt.visible? then
-			break
-		end
-	}
-	# Try to find control by its label
-	if not (field_elt and field_elt.exists? and field_elt.visible?) then
-		field_elt = @salad.byLabel(field) {|id| @salad.browser.checkbox(:id, id)}
-	end
 
-	field_elt = nil unless field_elt.exists? and field_elt.visible?
-	return field_elt
+def getCheckbox(field)
+	return @salad.getElement(field) {|how,what| @salad.browser.checkbox(how, what)}
 end

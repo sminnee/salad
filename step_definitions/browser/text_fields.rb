@@ -1,4 +1,4 @@
-Given /put "(.*)" in the "(.*)" field/i do |text,type|
+Given /put "(.*)" in(?:to)? the "(.*)" field/i do |text,type|
   field = getTextField(@salad.browser, type)
   if field then
      field.set(text) 
