@@ -51,8 +51,9 @@ module Salad
 				if how == :label then
 					elt = self.byLabel(what) {|id| createFn.call(:id, id)}
 					if elt and elt.exists? and elt.visible? then
-						break
+						return elt
 					end
+					hows.delete(:label)
 				end
 				elt = createFn.call(how, what)
 				if elt and elt.exists? and elt.visible? then
