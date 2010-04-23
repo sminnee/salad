@@ -47,14 +47,17 @@ module Salad
 				hows = [:id, :name, :value, :label, :index, :class]
 			end
 			hows.each {|how|
+#				puts(":how = #{how}")
 				if how == :index and not what.is_a?(Numeric) then next end
 				if how == :label then
+#					puts "Trying label"
 					elt = self.byLabel(what) {|id| createFn.call(:id, id)}
 					if elt and elt.exists? and elt.visible? then
 						return elt
 					end
-					hows.delete(:label)
+					next
 				end
+#				puts "Try Create, using #{how} #{what}"
 				elt = createFn.call(how, what)
 				if elt and elt.exists? and elt.visible? then
 					break
