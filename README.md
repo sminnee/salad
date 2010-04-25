@@ -176,113 +176,62 @@ matures.
 Please see [the cucumber website](http://cukes.info) for information about the exact cucumber 
 syntax.
 
-Actions
--------
+You should (in theory) be able to specify a field, link, or button by: ID,name,value,class,text,label or url
 
-### When I click the "(identifier)" button
+== Actions ==
 
-### When I click the "(identifier)" checkbox
+* Given I visit "http://www.example.com"
+* Given I click "image | button | link | checkbox | etc.."
+* Given I set "First Name" to "Hans"
+  * This should work for text fields, password fields and drop-downs.
+* Given I set "Surname" to "Dampf"
+* Given I select "item two" from "ID_SelectBoxA"
+  * This should work for drop-downs. 
 
-### When I click the "(identifier)" image
+== Assertions ==
 
-### When I click the "(identifier)" link
+* Then "Field" is selected
+* Then "Field" is checked
+* Then "Field" is not selected
+* Then "Field" is not checked
+  * 'selected' and 'checked' are synonyms and should work for checkboxes and radio buttons.
+* Then "Field" is "value"
+* Then "Field" is set to "value"
+  * These two above are synonyms, and should work for text fields, passwords, textareas and drop-downs.
+* Then I am at http://url.example.com
+* Then I am sent to www.newsite.example.com
+* Then I see "some text on the page"
+* Then I don't see "some error message text"
+* Then I am at "www.google.com"
+* Then I am sent to "www.google.com"
+* Then the "Surname" field is blank
 
-### When I click the "(identifier)" radio button
+== Windows ==
 
-### When I visit (url)
+These statements affect which window is used for the assertions and actions that follow them.
 
-### When I select "(value)" from "(dropdown identfier)"
+* And I look in the window "http://www.google.com"
+* And I look in the window "Google"
 
-### When I put "(value)" in the "(field identifier)" field / When I set "(field)" to "(value)"
+== Popups ==
 
-Multiple windows
---------------------
-### When I look in the window "(URL or Title)"
-This changes which window the following assertions or actions apply to.
+These statements affect any popup alert, input, or confirmation popup boxes that are created after the statement is issued.
 
-Assertions
-------------
+    Eg:
+       Given I cancel popups
+       And I click the "Delete"
+       Then I see "Cancelled"
 
-### Then I see "(text)"
+* Given I confirm popups
+* Given I cancel popups
+* Given I put "my response" in the popup
+  * This is for a popup input dialog.
 
-### Then I don't see "(text)"
+== Waiting ==
 
-### Then I am at (url) / Then I am sent to (url)
+* And I wait 5s
+* And I wait for html "<span>test</span>"
 
-### Then the url (url) does not exist
-
-### Then "(value)" is selected in "(dropdown identfier)"
-
-### Then the "(identifier)" field is "(value)" / Then the "(identifier)" field becomes "(value)"
-
-### Then the "(identifier)" field is blank
-
-
-
-Waiting
--------
-
-### I wait for "(text)"
-
-### I wait for HTML ("html")
-
-Misc
-----
-
-### I cancel pop-ups
-
-### I confirm pop-ups
-
-### I put "(text)" in the pop-up
-
------
-
-Recommended amendment - we should alter the rules to operate this way:
-
-Actions
--------
-
-### When I click "(button/image/link/checkbox/radiobutton)"
-
-### When I visit "(url)"
-
-### When I set "(dropdown/textfield)" to "(value)"
-
-Assertions
-----------
-
-### Then I see "(text)"
-
-### Then I don't see "(text)"
-
-### Then I am at (url)
-
-### Then the url (url) doesn't exist
-
-### Then "(field/dropdown)" is "(value)"
-
-### Then "(checkbox/radio)" is selected
-
-### Then "(checkbox/radio)" isn't selected
-
-### Then "(identifier)" is blank
-
-
-Waiting
--------
-
-### I wait for "(text)"
-
-### I wait for HTML ("html")
-
-Misc
-----
-
-### I cancel pop-ups
-
-### I confirm pop-ups
-
-### I put "(text)" in pop-ups
 
 ## REQUIREMENTS
 
