@@ -12,17 +12,6 @@ Given /select "(.*)" from "(.*)"/i do |text, type|
 end
 
 
-Given /"(.*)" is selected in "(.*)"/i do |text, field|
-  field_elt = getSelect(@salad.browser, field)
-
-  if field_elt then
-		fail("'#{text}' wasn't selected in the field '#{field}'") unless @salad.selected_options(field_elt).index(text)
-  else
-    fail("could not find the '#{field}' field on #{@salad.browser.url}")
-  end
-end
-
-
 def getSelect(browser, match)
   item = browser.select_list(:id, match)
   item = browser.select_list(:name, match) unless item and item.exists? and item.visible?

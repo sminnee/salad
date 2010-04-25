@@ -3,6 +3,7 @@
 # The proper watir code will be executed regardless.
 
 Given /click the "(.*)" radio button/i do |type|
+  warn("This is DEPRECATED. Please see the README")
 	elt = getRadioButton(type)
 	if elt then
 		elt.click
@@ -11,24 +12,20 @@ Given /click the "(.*)" radio button/i do |type|
 	end
 end
 
-Given /radio button "(.*)" is(\s+not)? selected/i do |field, wantUnchecked|
-	Given "\"#{field}\" radio button is#{wantUnchecked} selected"
-end
-
-Given /"(.*)" radio button is(\s+not)? selected/i do |field, wantUnchecked|
-	radioButton = getRadioButton(field)
-	wantUnchecked = (wantUnchecked != nil)
-	if radioButton then
-		isChecked = @salad.isChecked?(radioButton)
-		if wantUnchecked then
-			fail("The radio button #{field} was selected") if isChecked
-		else
-			fail("The radio button #{field} was not selected") if not isChecked
-		end
-	else
-		fail("could not find what you asked for")
-	end
-end
+#Given /"(.*)" radio button is(\s+not)? selected/i do |field, wantUnchecked|
+#	radioButton = getRadioButton(field)
+#	wantUnchecked = (wantUnchecked != nil)
+#	if radioButton then
+#		isChecked = @salad.isChecked?(radioButton)
+#		if wantUnchecked then
+#			fail("The radio button #{field} was selected") if isChecked
+#		else
+#			fail("The radio button #{field} was not selected") if not isChecked
+#		end
+#	else
+#		fail("could not find what you asked for")
+#	end
+#end
 
 
 

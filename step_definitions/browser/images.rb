@@ -3,6 +3,7 @@
 # The proper watir code will be executed regardless.
 
 Given /click the "(.*)" image/i do |type|
+  warn("This is DEPRECATED. Please see the README")
   if @salad.browser.image(:src, type).exists? then
      @salad.browser.image(:src, type).click
   elsif 

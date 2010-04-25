@@ -3,7 +3,14 @@
 module Salad
 	class Salad
 		VERSION = "0.1.5"
-
+		DEBUG = false
+		
+		def debug(str)
+			if $DEBUG then
+				puts(str)
+			end
+		end
+		
 		# Initialise Salad with a browser object.
 		def initialize(browser)
 			@browser = browser
@@ -47,17 +54,17 @@ module Salad
 				hows = [:id, :name, :value, :label, :index, :class]
 			end
 			hows.each {|how|
-#				puts(":how = #{how}")
+				self.debug(":how = #{how}")
 				if how == :index and not what.is_a?(Numeric) then next end
 				if how == :label then
-#					puts "Trying label"
+					self.debug("Trying label")
 					elt = self.byLabel(what) {|id| createFn.call(:id, id)}
 					if elt and elt.exists? and elt.visible? then
 						return elt
 					end
 					next
 				end
-#				puts "Try Create, using #{how} #{what}"
+				self.debug("Try Create, using #{how} #{what}")
 				elt = createFn.call(how, what)
 				if elt and elt.exists? and elt.visible? then
 					break
@@ -87,8 +94,8 @@ module Salad
 				else
 					return itemid
 				end
-			else
-				print "Failed to find label '#{value}'\n"
+#			else
+#				print "Failed to find label '#{value}'\n"
 			end
 			return item
 		end
@@ -135,7 +142,7 @@ module Salad
 		# how is :url or :title
 		# what is the content to match. may be a regex?
 		def attach(how, what)
-			#puts "Salad::attach(#{how}, #{what})"
+			self.debug("Salad::attach(#{how}, #{what})")
 			begin
 				if defined?(Watir::IE) and @browser.instance_of?(Watir::IE) then
 					# do it the hard way
