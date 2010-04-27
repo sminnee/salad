@@ -3,7 +3,6 @@
 # The proper watir code will be executed regardless.
 
 Given /click the "(.*)" radio button/i do |type|
-  warn("This is DEPRECATED. Please see the README")
 	elt = getRadioButton(type)
 	if elt then
 		elt.click

@@ -3,7 +3,6 @@
 # The proper watir code will be executed regardless.
 
 Given /click the "(.*)" button/i do |which|
-	warn("This is deprecated, see the README")
   btn = getButton(@salad.browser, which)
   
   if(btn) then

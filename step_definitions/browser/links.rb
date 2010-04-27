@@ -3,7 +3,6 @@
 # The proper watir code will be executed regardless.
 
 Given /click the "(.*)" link/i do |type|
-  warn("This is DEPRECATED. Please see the README")
   if link = getLink(@salad.browser, type) then
     ajax_before_action @salad.browser
     link.click

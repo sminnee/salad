@@ -1,5 +1,4 @@
 Given /put "(.*)" in(?:to)? the "(.*)" field/i do |text,type|
-  warn("This is DEPRECATED. Please see the README")
   field = @salad.getElement(type) { |how,what| @salad.browser.text_field(how,what) }
   field = getTextField(@salad.browser, type)
   if field then
@@ -11,7 +10,6 @@ end
 
 
 Given /The "(.*)" field is "(.*)"/i do |name, value|
-  warn("This is DEPRECATED. Please see the README")
   field = getTextField(@salad.browser, name)
 
   if field then
@@ -27,12 +25,10 @@ end
 #end
 
 Given /The "(.*)" field is blank/i do |field|
-  warn("This is DEPRECATED. Please see the README")
     Given "The \"#{field}\" field is \"\""
 end
 
 Given /The value of "(.*)" becomes "(.*)"/i do |field, value|
-  warn("This is DEPRECATED. Please see the README")
   Given "The \"#{field}\" field is \"#{value}\""
 end
 
