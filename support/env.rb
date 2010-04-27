@@ -19,6 +19,7 @@ when /firefox/
         if(options.kind_of?(Integer))
           options = {:waitTime => options}
         end
+        options[:profile] = 'Salad'
 
         # check for jssh not running, firefox may be open but not with -jssh
         # if its not open at all, regardless of the :suppress_launch_process option start it
