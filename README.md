@@ -67,6 +67,44 @@ You are now set up to run salad tests on IE and Firefox.
 
 ### OS X
 
+#### EASY INSTALL
+
+Your milage may vary.
+
+Checkout the salad source:
+
+    $ cd ~/Sites
+    $ git clone git@github.com:sminnee/salad.git salad
+	$ cd salad
+
+Set up Firefox for Salad
+
+	1. First, run ./scripts/firefox-3.6.sh (or 3.5.sh for older version)
+	2. This should show the Firefox Profile Manager
+	3. Create a Profile named "Salad" (case sensitive, no quotes), and select it.
+	4. Click "Start Firefox"
+	5. Follow the install instructions for JSSH
+	6. Don't restart Firefox yet!
+	7. Open Firefox Preferences->Content and de-select "Block pop-up windows"
+	8. Quit Firefox
+
+Now, install PHPUnit.  These scripts are for MAMP or XAMPP.  For other systems, use your *-fu.
+
+	Run one of these:
+
+    $ ./scripts/install_phpunit_MAMP.sh # (For MAMP)
+    $ ./scripts/install_phpunit_XAMPP.sh # (For XAMPP)
+
+Now install the gems:
+
+    $ ./scripts/install_deps.sh
+
+Now, test salad itself:
+
+    $ ./bin/salad firefox http://localhost/salad tests/*.feature
+
+
+#### NORMAL INSTALL
 If you have Leopard or Snow Leopard, then you should have Ruby all set up.  Open Terminal and
 run this command:
 
