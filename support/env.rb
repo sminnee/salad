@@ -7,7 +7,7 @@ $browserName = 'firefox' unless $browserName
 case $browserName.downcase
 when /safari/
   require 'safariwatir'
-  #$kill = 'safari'
+  $kill = 'safari'
   Browser = Watir::Safari
 
 when /firefox/
@@ -97,6 +97,7 @@ end
  
 at_exit do
   # Kill database
+  #$kill = '' # For debugging
 
   # Kill Firefox
   case $kill

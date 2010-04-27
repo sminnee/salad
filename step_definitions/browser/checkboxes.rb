@@ -3,7 +3,6 @@
 # The proper watir code will be executed regardless.
 
 Given /click the "(.*)" checkbox/i do |type|
-  warn("This is DEPRECATED. Please see the README")
 	checkbox = getCheckbox(type)
   if checkbox then
 		checkbox.click()
