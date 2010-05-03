@@ -18,3 +18,4 @@ Feature: Salad self-tests for popup windows.
 		And I click the "Google" link
 		And I look in the window "Google"
 		Then I am at http://www.google.co.nz
+
