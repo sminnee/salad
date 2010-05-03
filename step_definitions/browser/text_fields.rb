@@ -1,5 +1,5 @@
 Given /put "(.*)" in(?:to)? the "(.*)" field/i do |text,type|
-  field = @salad.getElement(type) { |how,what| @salad.browser.text_field(how,what) }
+#  field = @salad.getElement('text_field', type)
   field = getTextField(@salad.browser, type)
   if field then
      field.set(text) 

@@ -13,10 +13,10 @@ Given /click the "(.*)" link/i do |type|
 end
 
 def getLink(browser, match)
-	link = @salad.getElement(match, [:text,:class,:url,:xpath]) {|how,what| @salad.browser.link(how,what)}
+	link = @salad.getElement('link', match, [:text,:class,:url,:xpath])
 	if not (link and link.exists? and link.visible?)
 		match = @baseURL + match
-		link = @salad.getElement(match, [:text,:class,:url,:xpath]) {|how,what| @salad.browser.link(how,what)}
+		link = @salad.getElement('link', match, [:text,:class,:url,:xpath])
 	end
 	return link
 end

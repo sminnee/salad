@@ -29,5 +29,5 @@ end
 
 
 def getRadioButton(what)
-	return @salad.getElement(what) {|how,what| @salad.browser.radio(how, what)}
+	return @salad.getElement('radio', what)
 end

@@ -47,25 +47,26 @@ module Salad
 
 
 		# Portable getElement function.
-		# Usage: getElement('Item one', [:name, :id, :class, ...]) {|how,what| browser.button(how, what)}
-		def getElement(what, hows=nil, &createFn)
+		# Usage: getElement('button', 'Item one', [:name, :id, :class, ...])
+		def getElement(type, what, hows=nil, &createFn)
 			elt = nil
 			if hows == nil then
 				hows = [:id, :name, :value, :label, :index, :class]
 			end
+			method = @browser.method(type);
 			hows.each {|how|
 				self.debug(":how = #{how}")
 				if how == :index and not what.is_a?(Numeric) then next end
 				if how == :label then
 					self.debug("Trying label")
-					elt = self.byLabel(what) {|id| createFn.call(:id, id)}
+					elt = self.byLabel(what) {|id| method.call(:id, id)}
 					if elt and elt.exists? and elt.visible? then
 						return elt
 					end
 					next
 				end
 				self.debug("Try Create, using #{how} #{what}")
-				elt = createFn.call(how, what)
+				elt = method.call(how, what)
 				if elt and elt.exists? and elt.visible? then
 					break
 				end

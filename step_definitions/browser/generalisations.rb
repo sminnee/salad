@@ -58,8 +58,7 @@ def getElementTyped(what, methods, hows=nil, &action)
 	how = nil
 	type = nil
 	methods.each {|method_name|
-		method = @salad.browser.method(method_name)
-		elt = @salad.getElement(what, hows) {|how,what| method.call(how,what)}
+		elt = @salad.getElement(method_name, what, hows)
 		if elt and elt.exists? and elt.visible? then
 			type = method_name
 			break
