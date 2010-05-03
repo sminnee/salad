@@ -19,3 +19,4 @@ def getLink(browser, match)
 		link = @salad.getElement('link', match, [:text,:class,:url,:xpath])
 	end
 	return link
+end
