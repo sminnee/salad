@@ -29,5 +29,5 @@ end
 
 
 def getCheckbox(field)
-	return @salad.getElement(field) {|how,what| @salad.browser.checkbox(how, what)}
+	return @salad.getElement('checkbox', field)
 end
