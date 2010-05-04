@@ -74,8 +74,6 @@ else
 end
 
 # Set up 
-$browser = Browser.new
-$salad = Salad::Salad.new($browser)
 
 if $baseURL then
   if not $baseURL.match(/\/$/) then
@@ -84,6 +82,9 @@ if $baseURL then
 else
   $baseURL = "http://demo.silverstripe.com/"
 end
+
+$browser = Browser.new
+$salad = Salad::Salad.new($browser, $baseURL)
 
 # Make it go fast - IE only
 # $browser.speed = :zippy

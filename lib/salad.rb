@@ -6,14 +6,13 @@ module Salad
 		DEBUG = false
 		
 		def debug(str)
-			if $DEBUG then
-				puts(str)
-			end
+#			puts(str)
 		end
 		
 		# Initialise Salad with a browser object.
-		def initialize(browser)
+		def initialize(browser, baseURL)
 			@browser = browser
+			@baseURL = baseURL
 		end
 
 		# Getter for current @browser
@@ -71,11 +70,8 @@ module Salad
 					break
 				end
 			}
-			# Try to find control by its label
-			if not (elt and elt.exists? and elt.visible?) then
-			end
 
-			elt = nil unless elt.exists? and elt.visible?
+			elt = nil unless elt and elt.exists? and elt.visible?
 			return elt
 		end
 		# Try to find control by its label
@@ -184,6 +180,99 @@ module Salad
 				end
 			end
 			return win
+		end # attach()
+
+
+		def getSelectList(match)
+			item = @browser.select_list(:id, match)
+			item = @browser.select_list(:name, match) unless item and item.exists? and item.visible?
+			#  item = browser.select_list(:xpath, match) unless item and item.exists? and item.visible?
+
+			# Try to find control by its label
+			if not (item.exists? and item.visible?) then
+				label = @browser.label(:text, match)
+				if label.exists? then
+					itemid = self.getAttribute(label, 'for')
+					item = @browser.select_list(:id, itemid)
+				end
+			end
+
+			if item and not (item.exists? and item.visible?) then
+				item = nil
+			end
+			return item
+		end
+
+		# Try running with the text_field ":id", ":name", ":value", ":index" or ":class" element attribute.
+		# Does not matter what you select!
+		# The proper watir code will be executed regardless.
+		def getTextField(type)
+			# Build an array of all potential fields
+			fields = []
+			# By ID
+			@browser.text_fields().each { | field |
+				if field.id == type then fields.push field end
+			}
+			# By Name
+			@browser.text_fields().each { | field |
+				if field.respond_to?('htmlname') then
+					if field.htmlname == type then fields.push field end
+				else
+					if field.name == type then fields.push field end
+				end
+			}
+			# By the associated <label>
+			matchingLabels = @browser.elements_by_xpath("//label[.='#{type}']")
+			if matchingLabels then
+				matchingLabels.each { | label |
+					labelFor = self.getAttribute(label, 'for')
+
+					if labelFor then
+						@browser.text_fields().each { | field |
+							if self.getAttribute(field,'id') == labelFor then fields.push field end
+						}
+					end
+				}
+			end
+
+			# Return the first visible one
+			fields.each { | field |
+				if field.visible? then return field end
+			}
+			return nil
+		end
+
+		def getRadio(what)
+			return self.getElement('radio', what, [:id, :name, :value, :text, :index, :class, :label])
+		end
+
+
+		def getLink(match)
+			link = self.getElement('link', match, [:text,:class,:url])
+			return link if link
+			link = self.getElement('link', @baseURL + match, [:url])
+			return link if link
+			link = self.getElement('link', match, [:path,:label])
+			return link if link
+		end
+
+		def getCheckbox(what)
+			return self.getElement('checkbox', what, [:id,:name,:value,:text,:index,:class,:label])
+		end
+
+
+		def getButton(type)
+			elt = self.getElement('button', type, [:id,:value,:name,:text])
+			return elt if elt
+			# :xpath used for Safari suport
+			elt = @browser.button(:xpath, "//button[.='#{type}']")
+			return elt if elt and elt.exists? and elt.visible?
+			elt = self.getElement('button', type, [:index,:class,:label])
+			return elt
+		end
+
+		def getImage(what)
+			return self.getElement('image', what, [:src,:id,:name,:text,:index,:class,:label])
 		end
 
 	end # class Salad

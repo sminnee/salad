@@ -1,5 +1,10 @@
+Given /I click on the "([^\"]*)" tab/ do |tab|
+  @salad.getElement('link', match, [:xpath])
+  Given "I click the \"tab-Root_Content_set_#{tab}\" link"
+end
+
 Given /click "([^"]+)"/ do |what|
-	elt = getElementTyped(what, [:button, :image, :link, :checkbox, :radio]) {|elt,type,what,how|
+	elt = getElementTyped(what, [:Button, :Image, :Link, :Checkbox, :Radio]) {|elt,type,what,how|
 		ajax_before_action @salad.browser
 		elt.click
 		ajax_after_action @salad.browser
@@ -7,8 +12,8 @@ Given /click "([^"]+)"/ do |what|
 end
 
 Given /I set "([^"]+)" to "([^"]+)"/ do |what, value|
-	elt = getElementTyped(what, [:text_field, :select_list]) {|elt,type,what,how|
-		if type == :select_list then
+	elt = getElementTyped(what, [:TextField, :SelectList]) {|elt,type,what,how|
+		if type == :SelectList then
 			elt.select(value)
 		else
 			elt.set(value)
@@ -17,7 +22,7 @@ Given /I set "([^"]+)" to "([^"]+)"/ do |what, value|
 end
 
 Given /"([^"]+)" is(\s+not)? (?:selected|checked)/i do |what, wantUnchecked|
-	methods = [:checkbox, :radio]
+	methods = [:Checkbox, :Radio]
 	elt = getElementTyped(what, methods) {|elt,type,what,how|
 		isChecked = @salad.isChecked?(elt)
 		if wantUnchecked then
@@ -29,9 +34,9 @@ Given /"([^"]+)" is(\s+not)? (?:selected|checked)/i do |what, wantUnchecked|
 end
 
 Given /"([^"]+)" (?:is|is set to) "([^"]+)"/i do |what, value|
-	methods = [:select_list,:text_field]
+	methods = [:SelectList,:TextField]
 	elt = getElementTyped(what, methods) {|elt,type,what,how|
-		if type == :select_list then
+		if type == :SelectList then
 			fail("\"#{what}\" was not set to \"#{value}\"") unless @salad.selected_options(elt).index(value)
 		else
 			elt.value.should == value
@@ -58,7 +63,9 @@ def getElementTyped(what, methods, hows=nil, &action)
 	how = nil
 	type = nil
 	methods.each {|method_name|
-		elt = @salad.getElement(method_name, what, hows)
+		method = @salad.method('get' + method_name.to_s)
+		@salad.debug("--- Try #{method}")
+		elt = method.call(what)
 		if elt and elt.exists? and elt.visible? then
 			type = method_name
 			break
