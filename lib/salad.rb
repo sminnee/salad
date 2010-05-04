@@ -274,5 +274,6 @@ module Salad
 		def getImage(what)
 			return self.getElement('image', what, [:src,:id,:name,:text,:index,:class,:label])
 		end
+
 	end # class Salad
 end # module Salad
