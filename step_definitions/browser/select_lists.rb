@@ -3,31 +3,10 @@
 # The proper watir code will be executed regardless.
 
 Given /select "(.*)" from "(.*)"/i do |text, type|
-  selectList = getSelect(@salad.browser, type)
+  selectList = @salad.getSelect(type)
   if selectList
     selectList.select(text)
   else
     fail("could not find what you asked for")
   end
 end
-
-
-def getSelect(browser, match)
-  item = browser.select_list(:id, match)
-  item = browser.select_list(:name, match) unless item and item.exists? and item.visible?
-#  item = browser.select_list(:xpath, match) unless item and item.exists? and item.visible?
-
-	# Try to find control by its label
-	if not (item.exists? and item.visible?) then
-		label = browser.label(:text, match)
-		if label.exists? then
-			itemid = @salad.getAttribute(label, 'for')
-			item = browser.select_list(:id, itemid)
-		end
-	end
-
-  if not item.exists? and item.visible? then item = nil end
-
-  return item
-end
-

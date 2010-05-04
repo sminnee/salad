@@ -184,7 +184,108 @@ module Salad
 				end
 			end
 			return win
+		end # attach()
+
+
+		def getSelectList(match)
+			item = @browser.select_list(:id, match)
+			item = @browser.select_list(:name, match) unless item and item.exists? and item.visible?
+			#  item = browser.select_list(:xpath, match) unless item and item.exists? and item.visible?
+
+			# Try to find control by its label
+			if not (item.exists? and item.visible?) then
+				label = @browser.label(:text, match)
+				if label.exists? then
+					itemid = self.getAttribute(label, 'for')
+					item = @browser.select_list(:id, itemid)
+				end
+			end
+
+			if not item.exists? and item.visible? then item = nil end
+			return item
 		end
 
+		# Try running with the text_field ":id", ":name", ":value", ":index" or ":class" element attribute.
+		# Does not matter what you select!
+		# The proper watir code will be executed regardless.
+		def getTextField(type)
+			# Build an array of all potential fields
+			fields = []
+			# By ID
+			@browser.text_fields().each { | field |
+				if field.id == type then fields.push field end
+			}
+			# By Name
+			@browser.text_fields().each { | field |
+				if field.respond_to?('htmlname') then
+					if field.htmlname == type then fields.push field end
+				else
+					if field.name == type then fields.push field end
+				end
+			}
+			# By the associated <label>
+			matchingLabels = @browser.elements_by_xpath("//label[.='#{type}']")
+			if matchingLabels then
+				matchingLabels.each { | label |
+					labelFor = self.getAttribute(label, 'for')
+
+					if labelFor then
+						@browser.text_fields().each { | field |
+							if self.getAttribute(field,'id') == labelFor then fields.push field end
+						}
+					end
+				}
+			end
+
+			# Return the first visible one
+			fields.each { | field |
+				if field.visible? then return field end
+			}
+			return nil
+		end
+
+		def getRadio(what)
+			return self.getElement('radio', what, [:id, :name, :value, :text, :index, :class])
+		end
+
+
+		def getLink(match)
+			link = @browser.link(:id, match)
+			if not link.exists? then link = @browser.link(:text, match) end
+			if not link.exists? then link = @browser.link(:class, match) end
+			# Try the URL with both the baseURL prefix and without it
+			if not link.exists? then link = @browser.link(:url, @baseURL + match) end
+			if not link.exists? then link = @browser.link(:url, match) end
+			if not link.exists? then link = @browser.link(:xpath, match) end
+			if not link.exists? then link = nil end
+			return link
+		end
+
+		def getCheckbox(what)
+			return self.getElement('checkbox', what, [:id,:name,:value,:text,:index,:class])
+		end
+
+
+		def getButton(type)
+			button = @browser.button(:id, type)
+			button = @browser.button(:value, type) unless button.exists? and button.visible?
+
+			# :text used for Firefox suport
+			if @browser.instance_of?(FireWatir::Firefox)
+				button = @browser.button(:text, type) unless button.exists? and button.visible?
+			end
+			# :xpath used for Safari suport
+			button = @browser.button(:xpath, "//button[.='#{type}']") unless button.exists? and button.visible?
+
+			button = @browser.button(:index, type) unless button.exists? and button.visible?
+			button = @browser.button(:class, type) unless button.exists? and button.visible?
+
+			button = nil unless button.exists? and button.visible?
+			return button
+		end
+
+		def getImage(what)
+			return self.getElement('image', what, [:src,:id,:name,:text,:index,:class])
+		end
 	end # class Salad
 end # module Salad

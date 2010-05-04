@@ -3,7 +3,7 @@
 # The proper watir code will be executed regardless.
 
 Given /click the "(.*)" checkbox/i do |type|
-	checkbox = getCheckbox(type)
+	checkbox = @salad.getCheckbox(type)
   if checkbox then
 		checkbox.click()
 	else
@@ -25,9 +25,3 @@ end
 #    fail("could not find what you asked for")
 #	end
 #end
-
-
-
-def getCheckbox(field)
-	return @salad.getElement('checkbox', field)
-end

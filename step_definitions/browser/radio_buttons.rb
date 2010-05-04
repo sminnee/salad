@@ -3,7 +3,7 @@
 # The proper watir code will be executed regardless.
 
 Given /click the "(.*)" radio button/i do |type|
-	elt = getRadioButton(type)
+	elt = @salad.getRadio(type)
 	if elt then
 		elt.click
 	else
@@ -25,9 +25,3 @@ end
 #		fail("could not find what you asked for")
 #	end
 #end
-
-
-
-def getRadioButton(what)
-	return @salad.getElement('radio', what)
-end
