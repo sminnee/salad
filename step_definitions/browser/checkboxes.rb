@@ -4,11 +4,11 @@
 
 Given /click the "(.*)" checkbox/i do |type|
 	checkbox = @salad.getCheckbox(type)
-  if checkbox then
+	if checkbox then
 		checkbox.click()
 	else
-    fail("could not find what you asked for")
-  end
+		fail("could not find what you asked for")
+	end
 end
 
 #Given /checkbox "(.*)" is(\s+not)? checked/i do |field, wantUnchecked|

@@ -58,7 +58,8 @@ def getElementTyped(what, methods, hows=nil, &action)
 	how = nil
 	type = nil
 	methods.each {|method_name|
-		method = @salad.method('get' + method_name)
+		method = @salad.method('get' + method_name.to_s)
+		@salad.debug("--- Try #{method}")
 		elt = method.call(what)
 		if elt and elt.exists? and elt.visible? then
 			type = method_name

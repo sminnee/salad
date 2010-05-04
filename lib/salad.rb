@@ -6,14 +6,13 @@ module Salad
 		DEBUG = false
 		
 		def debug(str)
-			if $DEBUG then
-				puts(str)
-			end
+#			puts(str)
 		end
 		
 		# Initialise Salad with a browser object.
-		def initialize(browser)
+		def initialize(browser, baseURL)
 			@browser = browser
+			@baseURL = baseURL
 		end
 
 		# Getter for current @browser
@@ -71,11 +70,8 @@ module Salad
 					break
 				end
 			}
-			# Try to find control by its label
-			if not (elt and elt.exists? and elt.visible?) then
-			end
 
-			elt = nil unless elt.exists? and elt.visible?
+			elt = nil unless elt and elt.exists? and elt.visible?
 			return elt
 		end
 		# Try to find control by its label
@@ -201,7 +197,9 @@ module Salad
 				end
 			end
 
-			if not item.exists? and item.visible? then item = nil end
+			if item and not (item.exists? and item.visible?) then
+				item = nil
+			end
 			return item
 		end
 
@@ -245,47 +243,36 @@ module Salad
 		end
 
 		def getRadio(what)
-			return self.getElement('radio', what, [:id, :name, :value, :text, :index, :class])
+			return self.getElement('radio', what, [:id, :name, :value, :text, :index, :class, :label])
 		end
 
 
 		def getLink(match)
-			link = @browser.link(:id, match)
-			if not link.exists? then link = @browser.link(:text, match) end
-			if not link.exists? then link = @browser.link(:class, match) end
-			# Try the URL with both the baseURL prefix and without it
-			if not link.exists? then link = @browser.link(:url, @baseURL + match) end
-			if not link.exists? then link = @browser.link(:url, match) end
-			if not link.exists? then link = @browser.link(:xpath, match) end
-			if not link.exists? then link = nil end
-			return link
+			link = self.getElement('link', match, [:text,:class,:url])
+			return link if link
+			link = self.getElement('link', @baseURL + match, [:url])
+			return link if link
+			link = self.getElement('link', match, [:path,:label])
+			return link if link
 		end
 
 		def getCheckbox(what)
-			return self.getElement('checkbox', what, [:id,:name,:value,:text,:index,:class])
+			return self.getElement('checkbox', what, [:id,:name,:value,:text,:index,:class,:label])
 		end
 
 
 		def getButton(type)
-			button = @browser.button(:id, type)
-			button = @browser.button(:value, type) unless button.exists? and button.visible?
-
-			# :text used for Firefox suport
-			if @browser.instance_of?(FireWatir::Firefox)
-				button = @browser.button(:text, type) unless button.exists? and button.visible?
-			end
+			elt = self.getElement('button', type, [:id,:value,:name,:text])
+			return elt if elt
 			# :xpath used for Safari suport
-			button = @browser.button(:xpath, "//button[.='#{type}']") unless button.exists? and button.visible?
-
-			button = @browser.button(:index, type) unless button.exists? and button.visible?
-			button = @browser.button(:class, type) unless button.exists? and button.visible?
-
-			button = nil unless button.exists? and button.visible?
-			return button
+			elt = @browser.button(:xpath, "//button[.='#{type}']")
+			return elt if elt and elt.exists? and elt.visible?
+			elt = self.getElement('button', type, [:index,:class,:label])
+			return elt
 		end
 
 		def getImage(what)
-			return self.getElement('image', what, [:src,:id,:name,:text,:index,:class])
+			return self.getElement('image', what, [:src,:id,:name,:text,:index,:class,:label])
 		end
 	end # class Salad
 end # module Salad
