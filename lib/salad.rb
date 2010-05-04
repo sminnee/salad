@@ -248,7 +248,7 @@ module Salad
 
 
 		def getLink(match)
-			link = self.getElement('link', match, [:text,:class,:url])
+			link = self.getElement('link', match, [:id,:text,:class,:url])
 			return link if link
 			link = self.getElement('link', @baseURL + match, [:url])
 			return link if link

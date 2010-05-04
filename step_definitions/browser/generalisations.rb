@@ -1,8 +1,3 @@
-Given /I click on the "([^\"]*)" tab/ do |tab|
-  @salad.getElement('link', match, [:xpath])
-  Given "I click the \"tab-Root_Content_set_#{tab}\" link"
-end
-
 Given /click "([^"]+)"/ do |what|
 	elt = getElementTyped(what, [:Button, :Image, :Link, :Checkbox, :Radio]) {|elt,type,what,how|
 		ajax_before_action @salad.browser
@@ -11,7 +6,7 @@ Given /click "([^"]+)"/ do |what|
 	}
 end
 
-Given /I set "([^"]+)" to "([^"]+)"/ do |what, value|
+Given /I set "([^"]+)" to "([^"]*)"/ do |what, value|
 	elt = getElementTyped(what, [:TextField, :SelectList]) {|elt,type,what,how|
 		if type == :SelectList then
 			elt.select(value)
