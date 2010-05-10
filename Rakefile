@@ -11,8 +11,17 @@ Hoe.spec 'salad-common' do
   
   extra_deps << ['cucumber', '>= 0.6.3']
   extra_deps << ['rspec', '>= 1.2.9']
-  extra_deps << ['firewatir', '>= 1.6.5']
+  extra_deps << ['getopt', '>= 1.4.0']
+end
+
+Hoe.spec 'salad-firefox' do
+  self.readme_file = 'README.md'
+
+  developer('Sam Minnée', 'sam@silverstripe.com')
+  developer('Luke Hudson', 'luke@silverstripe.com')
   
+  extra_deps << ['salad-common', '>= 0.1.5']
+  extra_deps << ['firewatir', '>= 1.6.5']
 end
 
 Hoe.spec 'salad-safari' do
