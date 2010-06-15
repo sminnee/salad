@@ -260,7 +260,7 @@ module Salad
 			return link if link
 			link = self.getElement('link', @baseURL + match, [:url])
 			return link if link
-			link = self.getElement('link', match, [:path,:label])
+			link = self.getElement('link', match, [:xpath,:label])
 			return link if link
 		end
 
@@ -270,7 +270,9 @@ module Salad
 
 
 		def getButton(type)
-			elt = self.getElement('button', type, [:id,:value,:name,:text])
+			hows = [:id,:value,:name]
+			# ,:text <= Not supported by Safari
+			elt = self.getElement('button', type, hows)
 			return elt if elt
 			# :xpath used for Safari suport
 			elt = @browser.button(:xpath, "//button[.='#{type}']")
@@ -280,7 +282,8 @@ module Salad
 		end
 
 		def getImage(what)
-			return self.getElement('image', what, [:src,:id,:name,:text,:index,:class,:label])
+			return self.getElement('image', what, [:src,:id,:name,:index,:class,:label])
+			# TODO: :text not supported on Safari
 		end
 
 	end # class Salad
