@@ -1,4 +1,24 @@
 #!/usr/bin/env ruby
+
+newArgs = []
+opt = {}
+
+ARGV.each do |arg|
+	if arg[0,1] == '-' then
+		opt[arg[1,1]] = 1;
+	else
+		newArgs.push(arg)
+	end
+end 
+
+$OPT_DEBUG = 1 if opt.has_key? 'D'
+$OPT_NOKILL = 1 if opt.has_key? 'K'
+
+ARGV.clear
+newArgs.each do |arg|
+	ARGV.push arg
+end
+
 if ARGV.length < 1 then
 	puts "Usage: #{$0} (browser)
 "

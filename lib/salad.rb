@@ -3,10 +3,16 @@
 module Salad
 	class Salad
 		VERSION = "0.1.6"
-		DEBUG = false
+		@@DEBUG = false
 		
 		def debug(str)
-#			puts(str)
+			if @@DEBUG
+				puts("\t" + str)
+			end
+		end
+
+		def setDebug(turnOn)
+			@@DEBUG = turnOn
 		end
 		
 		# Initialise Salad with a browser object.
@@ -54,17 +60,18 @@ module Salad
 			end
 			method = @browser.method(type);
 			hows.each {|how|
-				self.debug(":how = #{how}")
+				self.debug("getElement(#{type}, #{what}), trying #{how}...")
 				if how == :index and not what.is_a?(Numeric) then next end
 				if how == :label then
-					self.debug("Trying label")
+					self.debug("getElement(#{type},#{what}), trying :label...")
 					elt = self.byLabel(what) {|id| method.call(:id, id)}
 					if elt and elt.exists? and elt.visible? then
+						self.debug("===> #{elt}")
 						return elt
 					end
 					next
 				end
-				self.debug("Try Create, using #{how} #{what}")
+				self.debug("getElement(#{type},#{what}), test #{method.to_s}(#{how}, #{what})...")
 				elt = method.call(how, what)
 				if elt and elt.exists? and elt.visible? then
 					break
@@ -72,6 +79,7 @@ module Salad
 			}
 
 			elt = nil unless elt and elt.exists? and elt.visible?
+			self.debug("===> #{elt}")
 			return elt
 		end
 		# Try to find control by its label

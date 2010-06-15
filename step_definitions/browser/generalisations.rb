@@ -59,7 +59,7 @@ def getElementTyped(what, methods, hows=nil, &action)
 	type = nil
 	methods.each {|method_name|
 		method = @salad.method('get' + method_name.to_s)
-		@salad.debug("--- Try #{method}")
+		@salad.debug("getElementTyped(#{what}), trying #{method}...")
 		elt = method.call(what)
 		if elt and elt.exists? and elt.visible? then
 			type = method_name
@@ -67,7 +67,7 @@ def getElementTyped(what, methods, hows=nil, &action)
 		end
 	}
 	if elt and elt.visible? and elt.exists? then
-		@salad.debug("Found {#{elt}} which is a '#{type}', by matching the '#{how}' against '#{what}'")
+		@salad.debug("getElementTyped(#{what}) => Found: \n#{elt.to_s.sub(/^/m, "\t")}\n which is a '#{type}', by matching the '#{how}' against '#{what}'")
 		action.call(elt, type, what, how)
 	else
 		fail("Unable to find any item matching \"#{what}\" in #{@salad.browser.url}")

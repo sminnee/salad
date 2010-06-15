@@ -32,7 +32,7 @@ when /firefox/
         end
 
         if current_os == :macosx && !%x{ps x | grep firefox-bin | grep -v grep}.empty?
-          raise "Firefox is running without -jssh" if jssh_down
+          raise "Firefox is running without -jssh\nTry quitting firefox and letting Salad start it.\n\n" if jssh_down
           open_window unless options[:suppress_launch_process]
         elsif not options[:suppress_launch_process]
           launch_browser(options)
@@ -85,6 +85,7 @@ end
 
 $browser = Browser.new
 $salad = Salad::Salad.new($browser, $baseURL)
+$salad.setDebug($OPT_DEBUG)
 
 # Make it go fast - IE only
 # $browser.speed = :zippy
@@ -94,11 +95,13 @@ Before do
   @browser = $browser
   @baseURL = $baseURL
   @salad = $salad
+  Given "I visit /dev/tests/emptydb"
 end
+
  
 at_exit do
   # Kill database
-  #$kill = '' # For debugging
+  $kill = '' if $OPT_NOKILL # For debugging
 
   # Kill Firefox
   case $kill
