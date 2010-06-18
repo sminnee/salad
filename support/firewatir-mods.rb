@@ -18,6 +18,19 @@ class Element
 end
 
 class FireWatir::Firefox
+  
+  def resetContainer()
+    jssh_command =  "var #{window_var} = getWindows()[#{@window_index}];"
+    jssh_command << "var #{browser_var} = #{window_var}.getBrowser();"
+    jssh_command << "var #{document_var} = #{browser_var}.contentDocument;"
+    jssh_command << "var #{body_var} = #{document_var}.body;"
+    jssh_command.gsub!(/\n/, "")
+    js_eval jssh_command
+
+    @window_title = js_eval "#{document_var}.title"
+    @window_url = js_eval "#{document_var}.URL"
+  end
+
   def evaluate_script(script)
     # Warning: don't use // comments in the JS, only /* */, because newlines are removed
   
@@ -43,4 +56,5 @@ class FireWatir::Firefox
     
     return self.js_eval(outerScript)
   end
+
 end

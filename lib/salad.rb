@@ -11,6 +11,17 @@ module Salad
 			end
 		end
 
+    def setNextContainer(elt)
+      self.debug("setNextContainer (was #{@container.inspect}) => #{elt.inspect}")
+      @container = elt
+    end
+
+    def resetContainer()
+      @browser.resetContainer()
+      @container = @browser
+      self.debug("resetContainer => #{@container.inspect}")
+    end
+
 		def setDebug(turnOn)
 			@@DEBUG = turnOn
 		end
@@ -19,12 +30,17 @@ module Salad
 		def initialize(browser, baseURL)
 			@browser = browser
 			@baseURL = baseURL
+      self.setNextContainer(@browser)
 		end
 
 		# Getter for current @browser
 		def browser()
 			return @browser
 		end
+
+		def container()
+			return @container
+    		end
     
 		# Get an attribute of an element
 		# Handles the differing behaviour between Watir, SafariWatir, and FireWatir
@@ -58,7 +74,8 @@ module Salad
 			if hows == nil then
 				hows = [:id, :name, :value, :label, :index, :class]
 			end
-			method = @browser.method(type);
+      self.debug("getElement(#{type}, #{what}, #{hows.join(', ')})")
+			method = @container.method(type);
 			hows.each {|how|
 				self.debug("getElement(#{type}, #{what}), trying #{how}...")
 				if how == :index and not what.is_a?(Numeric) then next end
@@ -90,7 +107,7 @@ module Salad
 		#		itemid = @salad.byLabel(match)
 		# Returns: element or element_id
 		def byLabel(value, &create)
-			label = @browser.label(:text, value)
+			label = @container.label(:text, value)
 			item = nil
 			if label.exists? then
 				itemid = self.getAttribute(label, 'for')
@@ -109,8 +126,10 @@ module Salad
 		# returns an array of options
 		def selected_options(element)
 			if element.respond_to?(:selected_options) then
-				return element.selected_options
+        self.debug(element.method('selected_options').inspect)
+        return element.selected_options
 			elsif element.respond_to?(:selected_values) then
+        self.debug(element.method('selected_values').inspect)
 				return element.selected_values
 			else
 				print element.inspect(), "\n"
@@ -192,16 +211,16 @@ module Salad
 
 
 		def getSelectList(match)
-			item = @browser.select_list(:id, match)
-			item = @browser.select_list(:name, match) unless item and item.exists? and item.visible?
+			item = @container.select_list(:id, match)
+			item = @container.select_list(:name, match) unless item and item.exists? and item.visible?
 			#  item = browser.select_list(:xpath, match) unless item and item.exists? and item.visible?
 
 			# Try to find control by its label
 			if not (item.exists? and item.visible?) then
-				label = @browser.label(:text, match)
+				label = @container.label(:text, match)
 				if label.exists? then
 					itemid = self.getAttribute(label, 'for')
-					item = @browser.select_list(:id, itemid)
+					item = @container.select_list(:id, itemid)
 				end
 			end
 
@@ -218,11 +237,11 @@ module Salad
 			# Build an array of all potential fields
 			fields = []
 			# By ID
-			@browser.text_fields().each { | field |
+			@container.text_fields().each { | field |
 				if field.id == type then fields.push field end
 			}
 			# By Name
-			@browser.text_fields().each { | field |
+			@container.text_fields().each { | field |
 				if field.respond_to?('htmlname') then
 					if field.htmlname == type then fields.push field end
 				else
@@ -230,13 +249,13 @@ module Salad
 				end
 			}
 			# By the associated <label>
-			matchingLabels = @browser.elements_by_xpath("//label[.='#{type}']")
+			matchingLabels = @container.elements_by_xpath("//label[.='#{type}']")
 			if matchingLabels then
 				matchingLabels.each { | label |
 					labelFor = self.getAttribute(label, 'for')
 
 					if labelFor then
-						@browser.text_fields().each { | field |
+						@container.text_fields().each { | field |
 							if self.getAttribute(field,'id') == labelFor then fields.push field end
 						}
 					end
@@ -251,21 +270,37 @@ module Salad
 		end
 
 		def getRadio(what)
-			return self.getElement('radio', what, [:id, :name, :value, :text, :index, :class, :label])
+      hows = [:id, :name, :value, :index, :class, :label]
+      if not @browser.is_a?(Watir::Safari) then
+        hows.insert(2, :text)
+      end
+			elt = self.getElement('radio', what, hows)
+			return elt
 		end
 
 
 		def getLink(match)
 			link = self.getElement('link', match, [:id,:text,:class,:url])
-			return link if link
+			if link then
+				return link
+			end
 			link = self.getElement('link', @baseURL + match, [:url])
-			return link if link
+			if link then
+				return link
+			end
 			link = self.getElement('link', match, [:xpath,:label])
-			return link if link
+			if link then
+				return link
+			end
 		end
 
 		def getCheckbox(what)
-			return self.getElement('checkbox', what, [:id,:name,:value,:text,:index,:class,:label])
+      hows = [:id, :name, :value, :index, :class, :label]
+      if not @browser.is_a?(Watir::Safari) then
+        hows.insert(2, :text)
+      end
+			elt = self.getElement('checkbox', what, hows)
+			return elt
 		end
 
 
@@ -273,18 +308,33 @@ module Salad
 			hows = [:id,:value,:name]
 			# ,:text <= Not supported by Safari
 			elt = self.getElement('button', type, hows)
-			return elt if elt
+			if elt then ; return elt; end
 			# :xpath used for Safari suport
-			elt = @browser.button(:xpath, "//button[.='#{type}']")
-			return elt if elt and elt.exists? and elt.visible?
+			elt = @container.button(:xpath, "//button[.='#{type}']")
+			if elt and elt.exists? and elt.visible? then ; return elt; end
 			elt = self.getElement('button', type, [:index,:class,:label])
 			return elt
 		end
 
 		def getImage(what)
-			return self.getElement('image', what, [:src,:id,:name,:index,:class,:label])
+      hows = [:src,:id, :index, :class,:label]
+      if not @browser.is_a?(Watir::Safari) then
+        hows.insert(2, :name)
+      end
+			elt = self.getElement('image', what, hows)
+			return elt
 			# TODO: :text not supported on Safari
 		end
 
+		def hasText?(text)
+			self.debug('hasText? ' + @container.inspect + ', ' + text)
+			return @container.text.include?(text)
+		end
+		
+		def hasHTML?(text)
+			self.debug('hasHTML? ' +  @container.inspect + ', ' + text)
+			return @container.html.include?(text)
+		end
+    
 	end # class Salad
 end # module Salad

@@ -10,7 +10,20 @@ if $browserName and $browserName.downcase == 'safari'
 require 'safariwatir'
 
 module Watir
+#  class FrameJavaScripter < JavaScripter # :nodoc:
+#
+#    def wrap(script)
+#      # add in frame name when referencing parent or document
+#      script.gsub! /\bparent\b/, "parent.#{@page_container}"
+#      script.gsub! /\bdocument\b/, "#{@page_container}.document"
+#      #script = 'alert(parent.tagName + " " + parent);' + script
+#      $salad.debug("\n" + '-' * 60 + "\n" + script + "\n" + '-' * 60 + "\n")
+#      super(script)
+#    end
+#  end
+
   module Container
+    
     # Implement missing API method - all text fields
     def text_fields()
       return @scripter.get_all_text_fields
@@ -19,6 +32,20 @@ module Watir
     # Implement missing API method - all elements matching an xpath
     def elements_by_xpath(xpath)
       return @scripter.get_all_by_xpath(xpath)
+    end
+
+    def frame(how, what)
+      Frame.new(scripter, what)
+    end
+
+    class Frame
+      def visible?
+        return true
+      end
+      
+      def exists?
+        return true # TODO: Is there a better way?
+      end
     end
     
     class HtmlElement
@@ -79,10 +106,16 @@ module Watir
 				def attach(how, what)
 					return @scripter.attach(how, what)
 				end
+
+    def resetContainer()
+      @scripter = AppleScripter.new(JavaScripter.new)
+      @scripter.ensure_window_ready
+    end
+
   end
   
   class AppleScripter
-		
+
 			def get_option_text(element)
 	      execute(element.operate do
 %|var opt = null;
