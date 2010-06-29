@@ -43,7 +43,7 @@ Given /"([^"]+)" (?:is|is set to) "([^"]+)"/i do |what, value|
 end
 
 Given /I inspect "([^"]+)"/ do |what|
-	elt = @salad.getElement('frame', what)
+	elt = @salad.getElement('frame', what, [:index, :name, :id, :src])
 	if elt then
 		@salad.setNextContainer(elt)
 	else
