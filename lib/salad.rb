@@ -14,12 +14,18 @@ module Salad
     def setNextContainer(elt)
       self.debug("setNextContainer (was #{@container.inspect}) => #{elt.inspect}")
       @container = elt
+      if @browser.is_a?(Watir::IE) then
+        @browser.set_container(elt)
+      end
     end
 
     def resetContainer()
       @browser.resetContainer()
       @container = @browser
       self.debug("resetContainer => #{@container.inspect}")
+      if @browser.is_a?(Watir::IE) then
+        @browser.set_container(@browser.document)
+      end
     end
 
 		def setDebug(turnOn)
