@@ -10,10 +10,12 @@ if $browserName and $browserName.downcase == 'ie'
   require 'watir'
 
   module Watir
-    def resetContainer()
-      @scripter = AppleScripter.new(JavaScripter.new)
-      @scripter.ensure_window_ready
-    end
+
+    class IE
+      def resetContainer
+        self.set_container(self.document)
+      end
+    end # class IE
 
     class Frame
     

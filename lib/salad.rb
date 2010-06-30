@@ -23,9 +23,6 @@ module Salad
       @browser.resetContainer()
       @container = @browser
       self.debug("resetContainer => #{@container.inspect}")
-      if @browser.is_a?(Watir::IE) then
-        @browser.set_container(@browser.document)
-      end
     end
 
 		def setDebug(turnOn)
