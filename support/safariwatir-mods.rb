@@ -84,6 +84,7 @@ module Watir
         @scripter.focus(self)
         @scripter.highlight(self) do
           clear_text_input
+          @typing_lag = 0
           append_text_input(value.to_s)
         end
         @scripter.blur(self)

@@ -30,7 +30,7 @@ Given /"([^"]+)" is(\s+not)? (?:selected|checked)/i do |what, wantUnchecked|
 end
 
 Given /"([^"]+)" (?:is|is set to) "([^"]+)"/i do |what, value|
-	methods = [:SelectList, :TextField]
+	methods = [:TextField, :SelectList]
 	elt = getElementTyped(what, methods) {|elt,type,what|
     @salad.debug("#{elt}, #{type}, #{what}")
 		if type == :SelectList then
