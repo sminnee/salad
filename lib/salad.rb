@@ -14,7 +14,7 @@ module Salad
     def setNextContainer(elt)
       self.debug("setNextContainer (was #{@container.inspect}) => #{elt.inspect}")
       @container = elt
-      if @browser.is_a?(Watir::IE) then
+      if @browser.respond_to?('set_container') then
         @browser.set_container(elt)
       end
     end
