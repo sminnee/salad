@@ -19,4 +19,3 @@ Feature: Salad self-tests for form fields
 		Then "SelectA" is "two"
 		And "Select B" is set to "three"
 		And "ID_SelectC" is set to "four"
-		And I click on the "Metadata" tab
