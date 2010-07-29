@@ -8,10 +8,10 @@ Feature: Salad self-tests for popup windows.
 
 	Scenario: Test links with the target "_blank"
 		Given I visit tests/form-fields.html
-		And I click the "SilverStripe" link
-		And I look in the window "SilverStripe.com - Open Source CMS / Framework"
-		And I am at http://silverstripe.com
-		And I see "Welcome to SilverStripe"
+		And I click the "New Window" link
+		And I look in the window "New Window Test"
+		And I am at tests/new-window.html
+		And I see "This is a new window."
 
 	Scenario: Test links which use window.open
 		Given I visit tests/form-fields.html
