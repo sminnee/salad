@@ -1,8 +1,10 @@
 Feature: Salad self-tests for ajax
 
-	Scenario: Perform testing of generalised vocabulary
+	Background:
 		Given I visit tests/form-fields.html
-		And I click "ID_AjaxButton1"
+	
+	Scenario: Perform testing of generalised vocabulary
+		When I click "ID_AjaxButton1"
 		And I click "ID_RadioA"
                 Then I inspect "IFrame1"
 		And I click "ID_RadioB"
