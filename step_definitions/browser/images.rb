@@ -2,7 +2,7 @@
 # Does not matter what you select!
 # The proper watir code will be executed regardless.
 
-Given /click the "(.*)" image/i do |type|
+Given /click the "(.*)" image[., \t]*$/i do |type|
   image = @salad.getImage(type)
   if (image) then
      image.click

@@ -1,8 +1,8 @@
-Given /I see "(.*)"/ do |text|
+Given /I see "(.*)"[., \t]*$/ do |text|
 	fail("'#{text}' not found") unless @salad.hasText?(text)
 end
 
-Given /I don't see "(.*)"/ do |text|
+Given /I don't see "(.*)"[., \t]*$/ do |text|
 	fail("'#{text}' was found when it shouldn't be.") if @salad.hasText?(text)
 end
 
@@ -10,7 +10,7 @@ Given /I wait for "(.*)"/ do |text|
 	Watir::Waiter::wait_until { @salad.hasText?(text) }
 end
 
-Given /I wait for html "(.*)"/ do |text|
+Given /I wait for html "(.*)"[., \t]*$/ do |text|
 	Watir::Waiter::wait_until { @salad.hasHTML? text}
 end
 

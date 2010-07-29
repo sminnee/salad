@@ -2,7 +2,7 @@
 # Does not matter what you select!
 # The proper watir code will be executed regardless.
 
-Given /click the "(.*)" radio button/i do |type|
+Given /click the "(.*)" radio button[., \t]*$/i do |type|
 	elt = @salad.getRadio(type)
 	if elt then
 		elt.click

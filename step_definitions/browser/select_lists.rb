@@ -2,7 +2,7 @@
 # Does not matter what you select!
 # The proper watir code will be executed regardless.
 
-Given /select "(.*)" from "(.*)"/i do |text, type|
+Given /select "(.*)" from "(.*)"[., \t]*$/i do |text, type|
   selectList = @salad.getSelectList(type)
   if selectList
     selectList.select(text)

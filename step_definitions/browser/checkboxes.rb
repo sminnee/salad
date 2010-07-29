@@ -2,7 +2,7 @@
 # Does not matter what you select!
 # The proper watir code will be executed regardless.
 
-Given /click the "(.*)" checkbox/i do |type|
+Given /click the "(.*)" checkbox[., \t]*$/i do |type|
 	checkbox = @salad.getCheckbox(type)
 	if checkbox then
 		checkbox.click()

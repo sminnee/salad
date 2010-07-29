@@ -2,7 +2,7 @@
 # Does not matter what you select!
 # The proper watir code will be executed regardless.
 
-Given /click the "(.*)" button/i do |which|
+Given /click the "(.*)" button[., \t]*$/i do |which|
   btn = @salad.getButton(which)
   
   if(btn) then

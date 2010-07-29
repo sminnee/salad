@@ -96,6 +96,7 @@ Before do
   @baseURL = $baseURL
   @salad = $salad
   Given "I visit /dev/tests/emptydb"
+  @salad.resetContainer()
 end
 
  

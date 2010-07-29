@@ -1,4 +1,4 @@
-Given /put "(.*)" in(?:to)? the "(.*)" field/i do |text,type|
+Given /put "(.*)" in(?:to)? the "(.*)" field[., \t]*$/i do |text,type|
 #  field = @salad.getElement('text_field', type)
   field = @salad.getTextField(type)
   if field then
@@ -9,7 +9,7 @@ Given /put "(.*)" in(?:to)? the "(.*)" field/i do |text,type|
 end  
 
 
-Given /The "(.*)" field is "(.*)"/i do |name, value|
+Given /The "(.*)" field is "(.*)"[., \t]*$/i do |name, value|
   field = @salad.getTextField(name)
 
   if field then
@@ -25,11 +25,11 @@ end
 #  Given "I put \"#{text}\" in the \"#{type}\" field"
 #end
 
-Given /The "(.*)" field is blank/i do |field|
+Given /The "(.*)" field is blank[., \t]*$/i do |field|
     Given "The \"#{field}\" field is \"\""
 end
 
-Given /The value of "(.*)" becomes "(.*)"/i do |field, value|
+Given /The value of "(.*)" becomes "(.*)"[., \t]*$/i do |field, value|
   Given "The \"#{field}\" field is \"#{value}\""
 end
 

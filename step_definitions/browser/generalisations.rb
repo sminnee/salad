@@ -1,4 +1,4 @@
-Given /click "([^"]+)"/ do |what|
+Given /click "([^"]+)"[., \t]*$/ do |what|
 	elt = getElementTyped(what, [:Button, :Image, :Link, :Checkbox, :Radio]) {|elt,type,what|
 		ajax_before_action @salad.browser
 		elt.click
@@ -6,7 +6,7 @@ Given /click "([^"]+)"/ do |what|
 	}
 end
 
-Given /I set "([^"]+)" to "([^"]*)"/ do |what, value|
+Given /I set "([^"]+)" to "([^"]*)"[., \t]*$/ do |what, value|
 	elt = getElementTyped(what, [:TextField, :SelectList]) {|elt,type,what|
     @salad.debug("Got it, now setting" + [elt,type,what].join(', '))
 		if type == :SelectList then
@@ -17,7 +17,7 @@ Given /I set "([^"]+)" to "([^"]*)"/ do |what, value|
 	}
 end
 
-Given /"([^"]+)" is(\s+not)? (?:selected|checked)/i do |what, wantUnchecked|
+Given /"([^"]+)" is(\s+not)? (?:selected|checked)[., \t]*$/i do |what, wantUnchecked|
 	methods = [:Checkbox, :Radio]
 	elt = getElementTyped(what, methods) {|elt,type,what|
 		isChecked = @salad.isChecked?(elt)
@@ -29,7 +29,7 @@ Given /"([^"]+)" is(\s+not)? (?:selected|checked)/i do |what, wantUnchecked|
 	}
 end
 
-Given /"([^"]+)" (?:is|is set to) "([^"]+)"/i do |what, value|
+Given /"([^"]+)" (?:is|is set to) "([^"]+)"[., \t]*$/i do |what, value|
 	methods = [:TextField, :SelectList]
 	elt = getElementTyped(what, methods) {|elt,type,what|
     @salad.debug("#{elt}, #{type}, #{what}")
@@ -40,19 +40,6 @@ Given /"([^"]+)" (?:is|is set to) "([^"]+)"/i do |what, value|
 			elt.value.should == value
 		end
 	}
-end
-
-Given /I inspect "([^"]+)"/ do |what|
-	elt = @salad.getElement('frame', what, [:index, :name, :id, :src])
-	if elt then
-		@salad.setNextContainer(elt)
-	else
-		fail("Didn't find a frame called #{what}")
-	end
-end
-
-Given /I inspect the whole page/ do
-	@salad.resetContainer()
 end
 
 # Retrieve an element, trying the various _hows_ in order

@@ -2,7 +2,7 @@
 # Does not matter what you select!
 # The proper watir code will be executed regardless.
 
-Given /click the "(.*)" link/i do |type|
+Given /click the "(.*)" link[., \t]*$/i do |type|
   if link = @salad.getLink(type) then
     ajax_before_action @salad.browser
     link.click
