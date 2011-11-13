@@ -1,4 +1,4 @@
-require 'spec'
+require 'rspec'
 require File.dirname(__FILE__) + '/../lib/salad'
 
 $kill = nil
@@ -95,7 +95,7 @@ Before do
   @browser = $browser
   @baseURL = $baseURL
   @salad = $salad
-  Given "I visit /dev/tests/emptydb"
+  step "I visit /dev/tests/emptydb"
   @salad.resetContainer()
 end
 

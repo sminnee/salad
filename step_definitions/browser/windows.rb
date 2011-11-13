@@ -22,7 +22,7 @@ Given /I inspect the whole page[., \t]*$/ do
 end
 
 Given /(.*) within "([^"]+)"[., \t]*$/i do |command, iframe|
-  Given "I inspect \"#{iframe}\""
-  Given command
-  Given "I inspect the whole page"
+  step "I inspect \"#{iframe}\""
+  step command
+  step "I inspect the whole page"
 end

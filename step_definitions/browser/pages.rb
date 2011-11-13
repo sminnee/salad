@@ -11,11 +11,11 @@ Given /I am at (.*)[., \t]*$/i do |url|
 end
 
 Given /I am sent to (.*)[., \t]*$/i do |url|
-	Given "I am at #{url}"
+	step "I am at #{url}"
 end
   
 Given /url (.*) (?:does not|doesn't) exist[., \t]*$/ do |url|
-  Given "I visit #{url}"
+  step "I visit #{url}"
   # Brittle - needs to check that actual 404 status, but that's hard
-  And "I see \"The requested page could not be found.\""
+  step "I see \"The requested page could not be found.\""
 end
