@@ -5,8 +5,8 @@ Feature: Salad self-tests for popup windows.
 	
 	Scenario: Test basic links
 		When I click the "SilverStripe.org" link
-		Then I am at http://silverstripe.org
-		And I see "A CMS for website editors"
+		Then I am at http://www.silverstripe.org
+		And I see "Find developers and organisations who develop using the SilverStripe platform."
 
 	Scenario: Test links with the target "_blank"
 		When I click the "New Window" link
