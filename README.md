@@ -11,7 +11,7 @@ and how it should work.
 
 For more information about Cucumber, see [the cucumber website](http://cukes.info).
 
-Salad currently uses Watir to perform the browser automation, although it may be extended in 
+Salad currently uses Watir and WebDriver to perform the browser automation, although it may be extended in 
 the future to use something like WebRat to test applications sans-JavaScript.
 
 ## FEATURES
@@ -77,17 +77,6 @@ Checkout the salad source:
     $ git clone git@github.com:sminnee/salad.git salad
 	$ cd salad
 
-Set up Firefox for Salad
-
-	1. First, run ./scripts/firefox-3.6.sh (or 3.5.sh for older version)
-	2. This should show the Firefox Profile Manager
-	3. Create a Profile named "Salad" (case sensitive, no quotes), and select it.
-	4. Click "Start Firefox"
-	5. Follow the install instructions for JSSH
-	6. Don't restart Firefox yet!
-	7. Open Firefox Preferences->Content and de-select "Block pop-up windows"
-	8. Quit Firefox
-
 Now, install PHPUnit.  These scripts are for MAMP or XAMPP.  For other systems, use your *-fu.
 
 	Run one of these:
@@ -102,10 +91,11 @@ Now install the gems:
 Now, test salad itself:
 
     $ ./bin/salad firefox http://localhost/salad tests/*.feature
+    $ ./bin/salad chrome http://localhost/salad tests/*.feature
 
 
 #### NORMAL INSTALL
-If you have Leopard or Snow Leopard, then you should have Ruby all set up.  Open Terminal and
+If you have OS X Leopard or newer, then you should have Ruby all set up.  Open Terminal and
 run this command:
 
     $ gem install salad safariwatir rb-appscript
@@ -178,7 +168,7 @@ syntax.
 
 You should (in theory) be able to specify a field, link, or button by: ID,name,value,class,text,label or url
 
-== Actions ==
+#### Actions
 
 * Given I visit "http://www.example.com"
 * Given I click "image | button | link | checkbox | etc.."
@@ -188,7 +178,7 @@ You should (in theory) be able to specify a field, link, or button by: ID,name,v
 * Given I select "item two" from "ID_SelectBoxA"
   * This should work for drop-downs. 
 
-== Assertions ==
+#### Assertions
 
 * Then "Field" is selected
 * Then "Field" is checked
@@ -206,14 +196,14 @@ You should (in theory) be able to specify a field, link, or button by: ID,name,v
 * Then I am sent to "www.google.com"
 * Then the "Surname" field is blank
 
-== Windows ==
+#### Windows
 
 These statements affect which window is used for the assertions and actions that follow them.
 
 * And I look in the window "http://www.google.com"
 * And I look in the window "Google"
 
-== Popups ==
+#### Popups
 
 These statements affect any popup alert, input, or confirmation popup boxes that are created after the statement is issued.
 
@@ -227,11 +217,10 @@ These statements affect any popup alert, input, or confirmation popup boxes that
 * Given I put "my response" in the popup
   * This is for a popup input dialog.
 
-== Waiting ==
+#### Waiting
 
 * And I wait 5s
 * And I wait for html "<span>test</span>"
-
 
 ## REQUIREMENTS
 

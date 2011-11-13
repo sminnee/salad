@@ -7,11 +7,11 @@ Given /I don't see "(.*)"[., \t]*$/ do |text|
 end
 
 Given /I wait for "(.*)"/ do |text|
-	Watir::Waiter::wait_until { @salad.hasText?(text) }
+	wait_until { @salad.hasText?(text) }
 end
 
 Given /I wait for html "(.*)"[., \t]*$/ do |text|
-	Watir::Waiter::wait_until { @salad.hasHTML? text}
+	wait_until { @salad.hasHTML? text}
 end
 
 # Wait for time

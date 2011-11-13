@@ -74,7 +74,7 @@ def ajax_before_action(browser)
 end
 
 def ajax_after_action(browser)
-  Watir::Waiter::wait_until {
+  wait_until {
 		status = @salad.evaluate_script_return(browser, "window.__ajaxStatus ? window.__ajaxStatus() : 'no ajax'")
     status != "waiting"
   }

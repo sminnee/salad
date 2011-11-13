@@ -14,14 +14,11 @@ module Salad
     def setNextContainer(elt)
       self.debug("setNextContainer (was #{@container.inspect}) => #{elt.inspect}")
       @container = elt
-      if @browser.respond_to?('set_container') then
-        @browser.set_container(elt)
-      end
     end
 
     def resetContainer()
-      @browser.resetContainer()
       @container = @browser
+      @mainWindow.use
       self.debug("resetContainer => #{@container.inspect}")
     end
 
@@ -33,6 +30,14 @@ module Salad
 		def initialize(browser, baseURL)
 			@browser = browser
 			@baseURL = baseURL
+
+      @browser.windows.each { |win| 
+        if win.current? then
+          @mainWindow = win
+          break
+        end
+      }
+
       self.setNextContainer(@browser)
 		end
 
@@ -144,20 +149,12 @@ module Salad
 
 		# Portable script evaluation
 		def evaluate_script(browser, js)
-			if browser.respond_to?('execute_script') and not browser.instance_of?(FireWatir::Firefox)
 				browser.execute_script("(function() { #{js} })()")
-			else
-				browser.evaluate_script(js)
-			end
 		end
 
 		# Portable script evaluation, with return value.
 		def evaluate_script_return(browser, js)
-			if browser.respond_to?('execute_script') and not browser.instance_of?(FireWatir::Firefox)
-				browser.execute_script("(function() { return #{js} })()")
-			else
-				browser.evaluate_script("return #{js}")
-			end
+	      browser.execute_script("return (function() { return #{js} })()")
 		end
 
 		# Portable return of current URL
@@ -170,45 +167,13 @@ module Salad
 		# what is the content to match. may be a regex?
 		def attach(how, what)
 			self.debug("Salad::attach(#{how}, #{what})")
+			win = nil
 			begin
-				if defined?(Watir::IE) and @browser.instance_of?(Watir::IE) then
-					# do it the hard way
-					begin
-						win = Watir::IE.attach(how, /#{what}/)
-						win = Watir::IE.attach(how, what) unless win
-					rescue Watir::Exception::NoMatchingWindowFoundException
-						win = nil
-					end
-					return nil unless win
-					@browser = win
-				end
-			rescue NameError,MissingSourceFile
-				# Assuming these are from IE missing errors above.
+    		  win = @browser.window(how, what)
+    		  win.use
+			rescue NameError,MissingSourceFile,NoMatchingWindowFoundException
 			end
-
-			begin
-				win = @browser.attach(how, /#{what}/) unless win
-				#puts "Attached using #{how} and /#{what}/" if win
-			rescue Watir::Exception::NoMatchingWindowFoundException
-				win = nil
-			end
-			unless win
-				begin
-					win = @browser.attach(how, what) unless win
-					#puts "Attached using #{how} and '#{what}'" if win
-				rescue Watir::Exception::NoMatchingWindowFoundException
-					win = nil
-				end
-			end
-			unless win
-				begin
-					what = Regexp.quote(what)
-					win = @browser.attach(how, /#{what}/) unless win
-					#puts "Attached using #{how} and quoted /#{what}/" if win
-				rescue Watir::Exception::NoMatchingWindowFoundException
-					win = nil
-				end
-			end
+			
 			return win
 		end # attach()
 
@@ -273,60 +238,48 @@ module Salad
 		end
 
 		def getRadio(what)
-      hows = [:id, :name, :value, :index, :class, :label]
-      if not @browser.is_a?(Watir::Safari) then
-        hows.insert(2, :text)
-      end
+      hows = [:id, :name, :text, :value, :index, :class, :label]
 			elt = self.getElement('radio', what, hows)
 			return elt
 		end
 
 
 		def getLink(match)
-			link = self.getElement('link', match, [:id,:text,:class,:url])
+			link = self.getElement('link', match, [:id,:text,:class,:href])
 			if link then
 				return link
 			end
-			link = self.getElement('link', @baseURL + match, [:url])
+			link = self.getElement('link', @baseURL + match, [:href])
 			if link then
 				return link
 			end
-			link = self.getElement('link', match, [:xpath,:label])
+			link = self.getElement('link', match, [:label])
 			if link then
 				return link
 			end
 		end
 
 		def getCheckbox(what)
-      hows = [:id, :name, :value, :index, :class, :label]
-      if not @browser.is_a?(Watir::Safari) then
-        hows.insert(2, :text)
-      end
+      hows = [:id, :name, :text, :value, :index, :class, :label]
 			elt = self.getElement('checkbox', what, hows)
 			return elt
 		end
 
 
 		def getButton(type)
-			hows = [:id,:value,:name]
-			# ,:text <= Not supported by Safari
+			hows = [:id,:value,:name,:text]
 			elt = self.getElement('button', type, hows)
 			if elt then ; return elt; end
-			# :xpath used for Safari suport
-			elt = @container.button(:xpath, "//button[.='#{type}']")
-			if elt and elt.exists? and elt.visible? then ; return elt; end
+
 			elt = self.getElement('button', type, [:index,:class,:label])
 			return elt
 		end
 
 		def getImage(what)
       hows = [:src,:id, :index, :class,:label]
-      if not @browser.is_a?(Watir::Safari) then
-        hows.insert(2, :name)
-      end
+      hows.insert(2, :name)
 			elt = self.getElement('image', what, hows)
 			return elt
-			# TODO: :text not supported on Safari
 		end
 
 		def hasText?(text)
@@ -341,3 +294,10 @@ module Salad
     
 	end # class Salad
 end # module Salad
+
+
+def wait_until(&block)
+  until result = yield do
+    sleep 1
+  end
+end

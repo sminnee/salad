@@ -1,8 +1,7 @@
 #!/bin/sh
 
 echo "Installing required gems to run salad"
-sudo gem install cucumber rspec commonwatir
-sudo gem install firewatir rb-appscript safariwatir 
+sudo gem install cucumber rspec watir-webdriver
 
 #echo "Installing gems to build salad gem"
 #sudo gem install hoe hoe-git
